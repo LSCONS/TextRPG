@@ -15,8 +15,8 @@ namespace TextRPG
             public static string PlayerName { get; set; } = "";     //플레이어 이름
             public static string PlayerJob { get; set; } = "";      //플레이어 직업
             public static int PlayerNowLevel { get; set; } = 0;     //플레이어 현재 레벨
-            public static int PlayerLevelDefaultRequestValue { get; set; } = 5;     //플레이어 레벨 업 기본 요구 경험치
-            public static int PlayerLevelRequestValue { get; set; } = 5;            //플레이어 레벨 업 현재 요구 경험치
+            public static int PlayerLevelDefaultRequestValue { get; set; } = 10;     //플레이어 레벨 업 기본 요구 경험치
+            public static int PlayerLevelRequestValue { get; set; } = 10;            //플레이어 레벨 업 현재 요구 경험치
             public static int PlayerLevelNowValue { get; set; } = 0;                //플레이어 현재 경험치
             public static int PlayerMaxHP { get; set; } = 0;        //플레이어 최대 체력
             public static int PlayerNowHP { get; set; } = 0;        //플레이어 현재 체력
@@ -26,6 +26,15 @@ namespace TextRPG
             public static Item PlayerWeaponItem { get; set; }       //플레이어 장착 무기
             public static Item PlayerArmorItem { get; set; }        //플레이어 장착 방어구
             public static List<Item> PlayerInventoryItem { get; set; }       //플레이어 인벤토리 아이템 리스트
+        }
+
+        public static void PlayerLevelUp()
+        {
+            PlayerAbilityStatus.PlayerNowLevel += 1;
+            PlayerAbilityStatus.PlayerMaxHP += 5;
+            PlayerAbilityStatus.PlayerNowHP += 5;
+            PlayerAbilityStatus.PlayerNowATK += 1;
+            PlayerAbilityStatus.PlayerNowDEF += 2;
         }
 
         public static void InputPlayerJobAbility(string job)
@@ -42,21 +51,21 @@ namespace TextRPG
                     hp = 120;
                     ATK = 8;
                     DEF = 8;
-                    gold = 200;
+                    gold = 500;
                     break;
 
                 case "도적":
                     hp = 100;
                     ATK = 10;
                     DEF = 5;
-                    gold = 500;
+                    gold = 1000;
                     break;
 
                 case "궁수":
                     hp = 80;
                     ATK = 12;
                     DEF = 5;
-                    gold = 200;
+                    gold = 600;
                     break;
 
                 default:

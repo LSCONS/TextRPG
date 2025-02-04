@@ -82,13 +82,12 @@ namespace TextRPG
                 }
                 else
                 {
-                    PlayerDataClear();
-                    PlayerDataReset();
+                    PlayerDataReStart();
                 }
             }
             catch
             {
-                PlayerDataReset();
+                PlayerDataReStart();
             }
 
         }
@@ -100,8 +99,8 @@ namespace TextRPG
             PlayerName = "";     //플레이어 이름
             PlayerJob = "";      //플레이어 직업
             PlayerNowLevel = 0;     //플레이어 현재 레벨
-            PlayerLevelDefaultRequestValue = 5;     //플레이어 레벨 업 기본 요구 경험치
-            PlayerLevelRequestValue = 5;            //플레이어 레벨 업 현재 요구 경험치
+            PlayerLevelDefaultRequestValue = 10;     //플레이어 레벨 업 기본 요구 경험치
+            PlayerLevelRequestValue = 10;            //플레이어 레벨 업 현재 요구 경험치
             PlayerLevelNowValue = 0;                //플레이어 현재 경험치
             PlayerMaxHP = 0;        //플레이어 최대 체력
             PlayerNowHP = 0;        //플레이어 현재 체력
@@ -147,6 +146,15 @@ namespace TextRPG
                     }
                 }
             }
+        }
+
+
+        //플레이어의 데이터를 모두 초기화하고 다시 시작할 때 사용할 메서드
+        public static void PlayerDataReStart()
+        {
+            PlayerDataClear();
+            PlayerDataReset();
+            ItemInstanceManager.InstanceItem(5);
         }
     }
 
