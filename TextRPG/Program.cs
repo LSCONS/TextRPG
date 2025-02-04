@@ -7,15 +7,11 @@ namespace TextRPG
 {
     internal class Program
     {
-
-
-
         //게임 시작
         static void Main(string[] args)
         {
             GameManager gameManager = GameManager.Instance;
             gameManager.StartGame();
         }
-
     }
 }

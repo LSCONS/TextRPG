@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,21 +12,20 @@ namespace TextRPG
         //플레이어의 기본적인 능력치 데이터가 들어있는 클래스
         public static class PlayerAbilityStatus
         {
-            public static string playerName = "르탄이";
-            public static string playerJob = "도적";
-
-            public static int playerNowLevel = 0;
-            public static int playerLevelDefaultRequestValue = 5;
-            public static int playerLevelRequestValue = 5;
-            public static int playerLecelNowValue = 0;
-            public static int playerMaxHP = 0;
-            public static int playerNowHP = 0;
-            public static int playerNowATK = 0;
-            public static int playerNowDEF = 0;
-            public static int playerNowGold = 0;
-
-            public static Item weaponItem;
-            public static Item armorItem;
+            public static string PlayerName { get; set; } = "";     //플레이어 이름
+            public static string PlayerJob { get; set; } = "";      //플레이어 직업
+            public static int PlayerNowLevel { get; set; } = 0;     //플레이어 현재 레벨
+            public static int PlayerLevelDefaultRequestValue { get; set; } = 5;     //플레이어 레벨 업 기본 요구 경험치
+            public static int PlayerLevelRequestValue { get; set; } = 5;            //플레이어 레벨 업 현재 요구 경험치
+            public static int PlayerLevelNowValue { get; set; } = 0;                //플레이어 현재 경험치
+            public static int PlayerMaxHP { get; set; } = 0;        //플레이어 최대 체력
+            public static int PlayerNowHP { get; set; } = 0;        //플레이어 현재 체력
+            public static int PlayerNowATK { get; set; } = 0;       //플레이어 현재 공격력
+            public static int PlayerNowDEF { get; set; } = 0;       //플레이어 현재 방어력
+            public static int PlayerNowGold { get; set; } = 0;      //플레이어 현재 골드
+            public static Item PlayerWeaponItem { get; set; }       //플레이어 장착 무기
+            public static Item PlayerArmorItem { get; set; }        //플레이어 장착 방어구
+            public static List<Item> PlayerInventoryItem { get; set; }       //플레이어 인벤토리 아이템 리스트
         }
 
         public static void InputPlayerJobAbility(string job)
@@ -53,7 +53,7 @@ namespace TextRPG
                     break;
 
                 case "궁수":
-                    hp = 120;
+                    hp = 80;
                     ATK = 12;
                     DEF = 5;
                     gold = 200;
@@ -64,11 +64,11 @@ namespace TextRPG
                     break;
             }
 
-            PlayerAbilityStatus.playerNowATK = ATK;
-            PlayerAbilityStatus.playerNowDEF = DEF;
-            PlayerAbilityStatus.playerMaxHP = hp;
-            PlayerAbilityStatus.playerNowHP = hp;
-            PlayerAbilityStatus.playerNowGold = gold;
+            PlayerAbilityStatus.PlayerNowATK = ATK;
+            PlayerAbilityStatus.PlayerNowDEF = DEF;
+            PlayerAbilityStatus.PlayerMaxHP = hp;
+            PlayerAbilityStatus.PlayerNowHP = hp;
+            PlayerAbilityStatus.PlayerNowGold = gold;
         }
     }
 

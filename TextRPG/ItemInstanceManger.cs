@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace TextRPG
 {
-
     //아이템 생성 관련 클래스
     internal class ItemInstanceManager
     {
-        public static List<Item> items = new List<Item>();
+        public static List<Item> items = new List<Item>();  //상점에 출력할 아이템들
         static Random random = new Random();
 
 
@@ -20,13 +19,13 @@ namespace TextRPG
             Random random = new Random();
             int rand = random.Next(-value, value + 1);
 
-            if (item.itemType == "무기")
-            { item.itemATK += rand; }
-            else if (item.itemType == "방어구")
-            { item.itemDEF += rand; }
+            if (item.ItemType == "무기")
+            { item.ItemATK += rand; }
+            else if (item.ItemType == "방어구")
+            { item.ItemDEF += rand; }
 
             //아이템 설명 텍스트 초기화
-            item.itemEquippedSettingTxt = item.InputItemEquippedSettingTxt(false);
+            item.ItemEquippedSettingTxt = item.InputItemEquippedSettingTxt(false);
 
             return item;
         }
@@ -35,6 +34,8 @@ namespace TextRPG
         //아이템을 랜덤으로 생성하는 메소드
         public static void InstanceItem(int num)
         {
+            if(items == null) items = new List<Item>();
+
             if (items.Count == 0)
             {
                 for (int i = 0; i < num; i++)
@@ -63,7 +64,8 @@ namespace TextRPG
                     items.Add(item);
                 }
                 //아이템 이름대로 정렬
-                items.Sort((x, y) => x.itemName.CompareTo(y.itemName));
+                items.Sort((x, y) => x.ItemName.CompareTo(y.ItemName));
+                DataManager.PlayerDataSave(); //저장
             }
         }
 

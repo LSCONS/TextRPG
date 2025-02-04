@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 namespace TextRPG
 {
     //아이템 필수 정보
-    internal class Item
+    public class Item
     {
-        public readonly string itemName;
-        public string itemType;
-        public bool useNow;
-        public int itemATK;
-        public int itemDEF;
-        public int itemHP;
-        public int itemBuyGold;
-        public int itemSellGold;
-        public readonly string itemInformationTxt;
-        public string itemEquippedSettingTxt;
+        public string ItemName { get; init; }
+        public string ItemType { get; set; }
+        public bool UseNow { get; set; }
+        public int ItemATK { get; set; }
+        public int ItemDEF { get; set; }
+        public int ItemHP { get; set; }
+        public int ItemBuyGold { get; set; }
+        public int ItemSellGold { get; set; }
+        public string ItemInformationTxt { get; init; }
+        public string ItemEquippedSettingTxt { get; set; }
 
         private float itemSellMultiple = 0.8f;
 
@@ -26,16 +26,16 @@ namespace TextRPG
         //Item을 생성하기 위해 선언해야 하는 생성자
         public Item(string itemName, string itemType, bool useNow, int itemATK, int itemDEF, int itemHP, int itemBuyGold, string itemInformationTxt)
         {
-            this.itemName = itemName;
-            this.itemType = itemType;
-            this.useNow = useNow;
-            this.itemATK = itemATK;
-            this.itemDEF = itemDEF;
-            this.itemHP = itemHP;
-            this.itemBuyGold = itemBuyGold;
-            this.itemSellGold = (int)(itemBuyGold * itemSellMultiple);
-            this.itemInformationTxt = itemInformationTxt;
-            this.itemEquippedSettingTxt = InputItemEquippedSettingTxt(useNow);
+            this.ItemName = itemName;
+            this.ItemType = itemType;
+            this.UseNow = useNow;
+            this.ItemATK = itemATK;
+            this.ItemDEF = itemDEF;
+            this.ItemHP = itemHP;
+            this.ItemBuyGold = itemBuyGold;
+            this.ItemSellGold = (int)(itemBuyGold * itemSellMultiple);
+            this.ItemInformationTxt = itemInformationTxt;
+            this.ItemEquippedSettingTxt = InputItemEquippedSettingTxt(useNow);
         }
 
 
@@ -46,11 +46,11 @@ namespace TextRPG
 
             if (useNow)
             {
-                result = $" [E]{itemName} | 공격력 +{itemATK} | 방어력 +{itemDEF} | {itemInformationTxt} | 판매 가치 : {itemSellGold}";
+                result = $" [E]{ItemName} | 공격력 +{ItemATK} | 방어력 +{ItemDEF} | {ItemInformationTxt} | 판매 가치 : {ItemSellGold}";
             }
             else
             {
-                result = $" {itemName} | 공격력 +{itemATK} | 방어력 +{itemDEF} | {itemInformationTxt} | 판매 가치 : {itemSellGold}";
+                result = $" {ItemName} | 공격력 +{ItemATK} | 방어력 +{ItemDEF} | {ItemInformationTxt} | 판매 가치 : {ItemSellGold}";
             }
 
             return result;
@@ -60,23 +60,24 @@ namespace TextRPG
         //장비를 입거나 벗을 경우 실행할 메서드
         public void ItemChangeToUse()
         {
-            useNow = !useNow;
+            UseNow = !UseNow;
 
             //아이템 착용
-            if(useNow == true)
+            if(UseNow == true)
             {
-                Player.PlayerAbilityStatus.playerNowATK += itemATK;
-                Player.PlayerAbilityStatus.playerNowDEF += itemDEF;
-                Player.PlayerAbilityStatus.playerNowHP += itemHP;
+                Player.PlayerAbilityStatus.PlayerNowATK += ItemATK;
+                Player.PlayerAbilityStatus.PlayerNowDEF += ItemDEF;
+                Player.PlayerAbilityStatus.PlayerNowHP += ItemHP;
             }
-            else if (useNow == false)
+            else if (UseNow == false)
             {
-                Player.PlayerAbilityStatus.playerNowATK -= itemATK;
-                Player.PlayerAbilityStatus.playerNowDEF -= itemDEF;
-                Player.PlayerAbilityStatus.playerNowHP -= itemHP;
+                Player.PlayerAbilityStatus.PlayerNowATK -= ItemATK;
+                Player.PlayerAbilityStatus.PlayerNowDEF -= ItemDEF;
+                Player.PlayerAbilityStatus.PlayerNowHP -= ItemHP;
             }
 
-            itemEquippedSettingTxt = InputItemEquippedSettingTxt(useNow);
+            ItemEquippedSettingTxt = InputItemEquippedSettingTxt(UseNow);
+            DataManager.PlayerDataSave();
         }
     }
 }

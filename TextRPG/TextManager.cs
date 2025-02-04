@@ -62,26 +62,26 @@ namespace TextRPG
 
             foreach (Item item in playerItemList)
             {
-                if (item.useNow)
+                if (item.UseNow)
                 {
-                    sumATK += item.itemATK;
-                    sumDEF += item.itemDEF;
-                    sumHP += item.itemHP;
+                    sumATK += item.ItemATK;
+                    sumDEF += item.ItemDEF;
+                    sumHP += item.ItemHP;
                 }
             }
 
             result.AppendLine("상태 보기");
             result.AppendLine("캐릭터의 정보가 표시됩니다");
             result.AppendLine();
-            result.AppendLine($"이름 : {playerName}");
-            result.AppendLine($"Lv. {playerNowLevel}");
-            result.AppendLine($"직업 : {playerJob}");
-            result.AppendLine($"공격력 : {playerNowATK + sumATK} (+{sumATK})");
-            result.AppendLine($"방어력 : {playerNowDEF + sumDEF} (+{sumDEF})");
-            result.AppendLine($"최대체력 : {playerMaxHP + sumHP} (+{sumHP})");
-            result.AppendLine($"현재체력 : {playerNowHP + sumHP} (+{sumHP})");
-            result.AppendLine($"Gold : {playerNowGold} G");
-            result.AppendLine($"경험치 : ( {playerLecelNowValue} / {playerLevelRequestValue} )");
+            result.AppendLine($"이름 : {PlayerName}");
+            result.AppendLine($"레벨 : {PlayerNowLevel}");
+            result.AppendLine($"직업 : {PlayerJob}");
+            result.AppendLine($"공격력 : {PlayerNowATK + sumATK} (+{sumATK})");
+            result.AppendLine($"방어력 : {PlayerNowDEF + sumDEF} (+{sumDEF})");
+            result.AppendLine($"최대체력 : {PlayerMaxHP + sumHP} (+{sumHP})");
+            result.AppendLine($"현재체력 : {PlayerNowHP + sumHP} (+{sumHP})");
+            result.AppendLine($"골드 : {PlayerNowGold} G");
+            result.AppendLine($"경험치 : ( {PlayerLevelNowValue} / {PlayerLevelRequestValue} )");
             result.AppendLine();
             result.AppendLine("0. 나가기");
 
@@ -97,7 +97,7 @@ namespace TextRPG
 
             foreach (Item item in playerItemList)
             {
-                itemTxt.AppendLine("-" + item.itemEquippedSettingTxt);
+                itemTxt.AppendLine("-" + item.ItemEquippedSettingTxt);
             }
 
             result.AppendLine("인벤토리");
@@ -120,7 +120,7 @@ namespace TextRPG
 
             for (int i = 0; i < playerItemList.Count; i++)
             {
-                itemTxt.AppendLine($"- {i + 1}{playerItemList[i].itemEquippedSettingTxt}");
+                itemTxt.AppendLine($"- {i + 1}{playerItemList[i].ItemEquippedSettingTxt}");
             }
 
             result.AppendLine("인벤토리 - 장착 관리");
@@ -140,7 +140,7 @@ namespace TextRPG
             StringBuilder itemTxt = new StringBuilder();
             foreach (Item item in ItemInstanceManager.items)
             {
-                itemTxt.AppendLine(item.itemEquippedSettingTxt);
+                itemTxt.AppendLine(item.ItemEquippedSettingTxt);
             }
 
 
@@ -149,7 +149,7 @@ namespace TextRPG
             result.AppendLine("필요한 아이템을 얻을 수 있는 상점입니다.");
             result.AppendLine();
             result.AppendLine("[보유 골드]");
-            result.AppendLine($"{playerNowGold} G");
+            result.AppendLine($"{PlayerNowGold} G");
             result.AppendLine();
             result.AppendLine("[아이템 목록]");
             result.AppendLine(itemTxt.ToString());
@@ -168,7 +168,7 @@ namespace TextRPG
             StringBuilder itemTxt = new StringBuilder();
             for (int i = 0; i < ItemInstanceManager.items.Count; i++)
             {
-                itemTxt.AppendLine($"- {i + 1}" + ItemInstanceManager.items[i].itemEquippedSettingTxt);
+                itemTxt.AppendLine($"- {i + 1}" + ItemInstanceManager.items[i].ItemEquippedSettingTxt);
             }
 
 
@@ -177,7 +177,7 @@ namespace TextRPG
             result.AppendLine("필요한 아이템을 얻을 수 있는 상점입니다.");
             result.AppendLine();
             result.AppendLine("[보유 골드]");
-            result.AppendLine($"{playerNowGold} G");
+            result.AppendLine($"{PlayerNowGold} G");
             result.AppendLine();
             result.AppendLine("[아이템 목록]");
             result.AppendLine(itemTxt.ToString());
@@ -196,14 +196,14 @@ namespace TextRPG
 
             for (int i = 0; i < playerItemList.Count; i++)
             {
-                itemTxt.AppendLine($"- {i + 1}{playerItemList[i].itemEquippedSettingTxt}");
+                itemTxt.AppendLine($"- {i + 1}{playerItemList[i].ItemEquippedSettingTxt}");
             }
 
             result.AppendLine("상점 - 아이템 판매");
             result.AppendLine("필요없는 아이템을 판매할 수 있습니다.");
             result.AppendLine();
             result.AppendLine("[보유 골드]");
-            result.AppendLine($"{playerNowGold} G");
+            result.AppendLine($"{PlayerNowGold} G");
             result.AppendLine();
             result.AppendLine("[아이템 목록]");
             result.AppendLine(itemTxt.ToString());
@@ -219,9 +219,9 @@ namespace TextRPG
             StringBuilder result = new StringBuilder();
 
             result.AppendLine("휴식하기");
-            result.AppendLine($"500 G 를 내면 체력을 회복할 수 있습니다. (보유 골드 : {playerNowGold} G)");
-            result.AppendLine($"최대 체력 : {playerMaxHP}");
-            result.AppendLine($"현재 체력 : {playerNowHP}");
+            result.AppendLine($"500 G 를 내면 체력을 회복할 수 있습니다. (보유 골드 : {PlayerNowGold} G)");
+            result.AppendLine($"최대 체력 : {PlayerMaxHP}");
+            result.AppendLine($"현재 체력 : {PlayerNowHP}");
             result.AppendLine();
             result.AppendLine("1. 휴식하기");
             result.AppendLine("0. 나가기");
@@ -248,24 +248,25 @@ namespace TextRPG
 
 
         //던전 클리어 시 출력할 텍스트
-        public static string DungeonClearTxt(int dungeonLevel, int damage, int rewardGold, int levelValue)
+        public static string DungeonClearTxt(int dungeonLevel, int damage, int rewardGold, int levelValue, int beforeLevel, int beforeLevelRequest)
         {
             StringBuilder result = new StringBuilder();
 
             string dungeonMessage = DungeonLevelSwitch(dungeonLevel);
-            int playerHP = playerNowHP;
-            int playerGold = playerNowGold;
-            int playerLvValue = playerLecelNowValue;
-            int playerLvRequest = playerLevelRequestValue;
+            int playerHP = PlayerNowHP;
+            int playerGold = PlayerNowGold;
+            int playerLvValue = PlayerLevelNowValue;
+            int playerLvRequest = PlayerLevelRequestValue;
 
             result.AppendLine("던전 클리어");
             result.AppendLine("축하합니다!!");
             result.AppendLine($"{dungeonMessage} 을 클리어 하였습니다.");
             result.AppendLine();
             result.AppendLine("[탐험 결과]");
+            result.AppendLine($"레벨 {beforeLevel} -> {PlayerNowLevel}");
             result.AppendLine($"체력 {playerHP + damage} -> {playerHP}");
             result.AppendLine($"골드 {playerGold - rewardGold} -> {playerGold}");
-            result.AppendLine($"경험치 ( {playerLvValue - levelValue} / {playerLvRequest} ) -> ( {playerLvValue} / {playerLvRequest} )");
+            result.AppendLine($"경험치 ( {playerLvValue - levelValue} / {beforeLevelRequest} ) -> ( {playerLvValue} / {playerLvRequest} )");
             result.AppendLine();
             result.AppendLine("0. 나가기");
 
@@ -308,8 +309,8 @@ namespace TextRPG
             result.AppendLine($"{dungeonMessage} 탐험에 실패했습니다.");
             result.AppendLine();
             result.AppendLine("[탐험 결과]");
-            result.AppendLine($"체력 {playerNowHP} -> {playerNowHP - damage}");
-            result.AppendLine($"골드 {playerNowGold}");
+            result.AppendLine($"체력 {PlayerNowHP + damage} -> {PlayerNowHP}");
+            result.AppendLine($"골드 {PlayerNowGold}");
             result.AppendLine();
             result.AppendLine("0. 나가기");
 
@@ -318,17 +319,24 @@ namespace TextRPG
 
 
         //사망 시 출력할 텍스트
-        public static string PlayerDieTxt()
+        public static string PlayerDieTxt(string name, string job, int level, int hp, int ATK, int DEF, int levelValue, int requestLevelValue, int gold)
         {
             StringBuilder result = new StringBuilder();
 
             result.AppendLine("플레이어 사망");
             result.AppendLine("플레이어가 사망했습니다.");
             result.AppendLine();
-            result.AppendLine("[탐험 결과]");
-            result.AppendLine($"골드 {playerNowGold}");//***추후 플레이어 스테이터스 추가
+            result.AppendLine("[플레이어 정보]");
+            result.AppendLine($"이름 : {name}");
+            result.AppendLine($"직업 : {job}");
+            result.AppendLine($"레벨 : {level}");
+            result.AppendLine($"최대 체력 : {hp}");
+            result.AppendLine($"공격력 : {ATK}");
+            result.AppendLine($"방어력 : {DEF}");
+            result.AppendLine($"경험치 : ({levelValue} -> {requestLevelValue})");
+            result.AppendLine($"골드 {gold}");
             result.AppendLine();
-            result.AppendLine("0. 나가기");
+            result.AppendLine("0. 다시하기");
 
             return result.ToString();
         }
@@ -394,10 +402,10 @@ namespace TextRPG
             result.AppendLine("레벨 업");
             result.AppendLine("플레이어의 레벨이 상승했습니다.");
             result.AppendLine();
-            result.AppendLine($"최대체력 : {playerMaxHP} -> 추가"); //***추가 텍스트 추가
-            result.AppendLine($"현재체력 : {playerNowHP} -> 추가");
-            result.AppendLine($"공격력 : {playerNowATK}  -> 추가");
-            result.AppendLine($"방어력 : {playerNowDEF}  -> 추가");
+            result.AppendLine($"최대체력 : {PlayerMaxHP} -> 추가"); //***추가 텍스트 추가
+            result.AppendLine($"현재체력 : {PlayerNowHP} -> 추가");
+            result.AppendLine($"공격력 : {PlayerNowATK}  -> 추가");
+            result.AppendLine($"방어력 : {PlayerNowDEF}  -> 추가");
             result.AppendLine();
             result.AppendLine("0. 나가기");
 

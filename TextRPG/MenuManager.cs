@@ -53,14 +53,12 @@ namespace TextRPG
                 Console.Write(TextManager.SelectNumberTxt(message));
                 playerInput = Console.ReadLine();
 
-                if (int.TryParse(playerInput, out jobsNumber))
+                //해당 입력값이 직업에 정의되어있는지 확인
+                if (int.TryParse(playerInput, out jobsNumber) &&
+                    Enum.IsDefined(typeof(JobType), jobsNumber))
                 {
-                    //해당 입력값이 직업에 정의되어있는지 확인
-                    if (Enum.IsDefined(typeof(JobType), jobsNumber))
-                    {
-                        jobName = Enum.GetName(typeof(JobType), jobsNumber);
-                        break;
-                    }
+                    jobName = Enum.GetName(typeof(JobType), jobsNumber);
+                    break;
                 }
 
                 message = "잘못된 입력입니다";
@@ -164,42 +162,42 @@ namespace TextRPG
 
                 Item item = playerItemList[value - 1];
 
-                if (item.itemType == "무기")
+                if (item.ItemType == "무기")
                 {
-                    if (weaponItem == null)
+                    if (PlayerWeaponItem == null)
                     {
-                        weaponItem = item;
+                        PlayerWeaponItem = item;
                         item.ItemChangeToUse();
                     }
-                    else if (weaponItem != item)
+                    else if (PlayerWeaponItem != item)
                     {
-                        weaponItem.ItemChangeToUse();
-                        weaponItem = item;
+                        PlayerWeaponItem.ItemChangeToUse();
+                        PlayerWeaponItem = item;
                         item.ItemChangeToUse();
                     }
-                    else if (weaponItem == item)
+                    else if (PlayerWeaponItem == item)
                     {
-                        weaponItem.ItemChangeToUse();
-                        weaponItem = null;
+                        PlayerWeaponItem.ItemChangeToUse();
+                        PlayerWeaponItem = null;
                     }
                 }
-                else if (item.itemType == "방어구")
+                else if (item.ItemType == "방어구")
                 {
-                    if (armorItem == null)
+                    if (PlayerArmorItem == null)
                     {
-                        armorItem = item;
+                        PlayerArmorItem = item;
                         item.ItemChangeToUse();
                     }
-                    else if (armorItem != item)
+                    else if (PlayerArmorItem != item)
                     {
-                        armorItem.ItemChangeToUse();
-                        armorItem = item;
+                        PlayerArmorItem.ItemChangeToUse();
+                        PlayerArmorItem = item;
                         item.ItemChangeToUse();
                     }
-                    else if (armorItem == item)
+                    else if (PlayerArmorItem == item)
                     {
-                        armorItem.ItemChangeToUse();
-                        armorItem = null;
+                        PlayerArmorItem.ItemChangeToUse();
+                        PlayerArmorItem = null;
                     }
                 }
 
@@ -217,7 +215,7 @@ namespace TextRPG
         public static void InputShopMenu(List<Item> playerItemList, string? message)
         {
             Console.Clear();
-            ItemInstanceManager.InstanceItem(5);
+            ItemInstanceManager.InstanceItem(5);    //아이템 생성
             Console.WriteLine(TextManager.ShopMenuTxt(playerItemList));
             Console.WriteLine();
             Console.Write(TextManager.SelectNumberTxt(message));
@@ -254,17 +252,17 @@ namespace TextRPG
 
             string playerInput = Console.ReadLine();
 
-            if (playerInput == "0")
-            { }
+            if (playerInput == "0") { }
             else if (int.TryParse(playerInput, out int value) && ItemInstanceManager.items.Count >= value)
             {
                 Item item = ItemInstanceManager.items[value - 1];
-                if (playerNowGold >= item.itemBuyGold)
+                if (PlayerNowGold >= item.ItemBuyGold)
                 {
                     //상점 리스트 -> 플레이어 인벤토리 리스트로 아이템 이동
-                    playerNowGold -= item.itemBuyGold;
+                    PlayerNowGold -= item.ItemBuyGold;
                     playerItemList.Add(item);
                     ItemInstanceManager.items.Remove(item);
+                    DataManager.PlayerDataSave();       //데이터 저장
                     InputShopBuyMenu(playerItemList, "구입이 완료되었습니다.");
                 }
                 else
@@ -294,10 +292,11 @@ namespace TextRPG
             else if (int.TryParse(playerInput, out int value) && ItemInstanceManager.items.Count >= value)
             {
                 Item item = playerItemList[value - 1];
-                if (item.useNow == false)
+                if (item.UseNow == false)
                 {
-                    playerNowGold += item.itemSellGold;
+                    PlayerNowGold += item.ItemSellGold;
                     playerItemList.Remove(item);
+                    DataManager.PlayerDataSave();       //데이터 저장
                     InputShopSellMenu(playerItemList, "판매 완료했습니다.");
                 }
                 else
@@ -377,38 +376,46 @@ namespace TextRPG
                     levelValue = random.Next(7, 11);
                     break;
             }
-            sumDamage = rand + recommendArmor - playerNowDEF;
+            sumDamage = rand + recommendArmor - PlayerNowDEF;
 
-            rand = random.Next(playerNowATK, playerNowATK * 2);
+            rand = random.Next(PlayerNowATK, PlayerNowATK * 2);
             rewardGold = rewardGold * rand / 100;
 
             rand = random.Next(0, 10);
 
             //플레이어의 방어력이 권장 방어력보다 높은 경우 성공
             //기본 성공 확률 60%의 확률로 성공
-            if (playerNowDEF >= recommendArmor || rand >= 4)
+            if (PlayerNowDEF >= recommendArmor || rand >= 4)
             {
                 //현재 체력이 0 이하가 될 경우 사망 처리
-                if (playerNowHP - sumDamage <= 0)
+                if (PlayerNowHP - sumDamage <= 0)
                 {
-                    playerNowHP = 0;
-                    PlayerDieMenu(null);
+                    PlayerDieAction();
                 }
                 //던전 성공
                 else
                 {
-                    playerNowHP -= sumDamage;
-                    playerNowGold += rewardGold;
-                    playerLecelNowValue += levelValue;
-                    DungeonClearMenu(null, dungeonLevel, sumDamage, rewardGold, levelValue);
+                    PlayerNowHP -= sumDamage;
+                    PlayerNowGold += rewardGold;
+                    PlayerLevelNowValue += levelValue;
+
+                    int beforeNowLevel = PlayerNowLevel;
+                    int beforeLevelRequestValue = PlayerLevelRequestValue;
 
                     //성공 이후 플레이어의 레벨이 요구치를 충족했을 경우
-                    if(playerLevelRequestValue <= playerLecelNowValue)
+                    if (PlayerLevelRequestValue <= PlayerLevelNowValue)
                     {
-                        playerNowLevel += 1;
-                        PlayerLevelUpMenu(null);
+                        PlayerNowLevel += 1;
+                        PlayerLevelRequestValue = PlayerLevelDefaultRequestValue + (int)(PlayerLevelRequestValue * 1.2f);
+                    }
+                    DataManager.PlayerDataSave();
 
-                        playerLevelRequestValue = playerLevelDefaultRequestValue + (int)(playerLevelRequestValue * 1.2f);
+
+                    DungeonClearMenu(null, dungeonLevel, sumDamage, rewardGold, levelValue, beforeNowLevel, beforeLevelRequestValue);
+
+                    if (PlayerLevelRequestValue <= PlayerLevelNowValue)
+                    {
+                        PlayerLevelUpMenu(null);
                     }
                 }
             }
@@ -418,15 +425,15 @@ namespace TextRPG
                 sumDamage = sumDamage / 2;
 
                 //현재 체력이 0 이하가 될 경우 사망 처리
-                if (playerNowHP - sumDamage <= 0)
+                if (PlayerNowHP - sumDamage <= 0)
                 {
-                    playerNowHP = 0;
-                    PlayerDieMenu(null);
+                    PlayerDieAction();
                 }
                 //던전 실패
                 else
                 {
-                    playerNowHP -= sumDamage;
+                    PlayerNowHP -= sumDamage;
+                    DataManager.PlayerDataSave();
                     DungeonFaildMenu(null, dungeonLevel, sumDamage);
                 }
             }
@@ -434,35 +441,50 @@ namespace TextRPG
 
 
         //사망 처리 창으로 넘어가는 메서드
-        public static void PlayerDieMenu(string? message)
+        public static void PlayerDieMenu(string? message, string name, string job, int level, int hp, int ATK, int DEF, int levelValue, int requestLevelValue, int gold)
         {
             Console.Clear();
-            Console.WriteLine(TextManager.PlayerDieTxt());
+            Console.WriteLine(TextManager.PlayerDieTxt(name, job, level, hp, ATK, DEF, levelValue, requestLevelValue, gold));
             Console.WriteLine();
             Console.Write(TextManager.SelectNumberTxt(message));
             string playerInput = Console.ReadLine();
 
             switch (playerInput)
             {
-                case "0":
-                    break;
-
-                case "1"://게임 다시 시작하기
+                case "0": //게임 다시 시작하기
                     break;
 
                 default:
-                    InputRestMenu("잘못된 입력입니다.");
+                    PlayerDieMenu("잘못된 입력입니다.", name, job, level, hp, ATK, DEF, levelValue, requestLevelValue, gold);
                     break;
 
             }
         }
 
+        public static void PlayerDieAction()
+        {
+            PlayerNowHP = 0;
+            string name = PlayerName;
+            string job = PlayerJob;
+            int level = PlayerNowLevel;
+            int hp = PlayerMaxHP;
+            int ATK = PlayerNowATK;
+            int DEF = PlayerNowDEF;
+            int tempLevelValue = PlayerLevelNowValue;
+            int tempLevelRequestValue = PlayerLevelRequestValue;
+            int gold = PlayerNowGold;
+
+            DataManager.PlayerDataClear(); //플레이어 데이터 초기화 후 세이브
+            DataManager.PlayerDataSave();
+            PlayerDieMenu(null, name, job, level, hp, ATK, DEF, tempLevelValue, tempLevelRequestValue, gold);
+        }
+
 
         //탐험 성공 창으로 넘어가는 메서드
-        public static void DungeonClearMenu(string? message, int dungeonLevel, int damage, int rewardGold, int levelValue)
+        public static void DungeonClearMenu(string? message, int dungeonLevel, int damage, int rewardGold, int levelValue, int beforeLevel, int beforeLevelRequest)
         {
             Console.Clear();
-            Console.WriteLine(TextManager.DungeonClearTxt(dungeonLevel, damage, rewardGold, levelValue));
+            Console.WriteLine(TextManager.DungeonClearTxt(dungeonLevel, damage, rewardGold, levelValue, beforeLevel, beforeLevelRequest));
             Console.WriteLine();
             Console.Write(TextManager.SelectNumberTxt(message));
             string playerInput = Console.ReadLine();
@@ -473,7 +495,7 @@ namespace TextRPG
                     break;
 
                 default:
-                    DungeonClearMenu("잘못된 입력입니다.", dungeonLevel, damage, rewardGold, levelValue);
+                    DungeonClearMenu("잘못된 입력입니다.", dungeonLevel, damage, rewardGold, levelValue, beforeLevel, beforeLevelRequest);
                     break;
 
             }
@@ -517,10 +539,10 @@ namespace TextRPG
                     break;
 
                 case "1":
-                    if (playerNowGold >= 500)
+                    if (PlayerNowGold >= 500)
                     {
-                        playerNowHP = playerMaxHP;
-                        playerNowGold -= 500;
+                        PlayerNowHP = PlayerMaxHP;
+                        PlayerNowGold -= 500;
                         InputRestMenu("휴식을 완료했습니다.");
                     }
                     else
@@ -550,7 +572,7 @@ namespace TextRPG
             {
                 case "0":
                     break;
-                    
+
                 default:
                     PlayerLevelUpMenu("잘못된 입력입니다.");
                     break;
