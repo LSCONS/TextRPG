@@ -215,7 +215,6 @@ namespace TextRPG
         public static void InputShopMenu(List<Item> playerItemList, string? message)
         {
             Console.Clear();
-            ItemInstanceManager.InstanceItem(5);    //아이템 생성
             Console.WriteLine(TextManager.ShopMenuTxt(playerItemList));
             Console.WriteLine();
             Console.Write(TextManager.SelectNumberTxt(message));
@@ -353,6 +352,9 @@ namespace TextRPG
             int recommendArmor = 0;
             int sumDamage = 0;
             int rewardGold = 0;
+
+            //상점 아이템 초기화
+            ItemInstanceManager.InstanceItem(5);
 
             switch (dungeonLevel)
             {

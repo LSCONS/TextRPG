@@ -6,10 +6,19 @@ using System.Threading.Tasks;
 
 namespace TextRPG
 {
+    public enum Rarity
+    {
+        Low,
+        Normal,
+        High
+    }
+
+
     //아이템 필수 정보
     public class Item
     {
         public string ItemName { get; init; }
+        public Rarity Rarity { get; set; }   // 새로 추가: 등급(레어도)
         public string ItemType { get; set; }
         public bool UseNow { get; set; }
         public int ItemATK { get; set; }
@@ -23,9 +32,10 @@ namespace TextRPG
 
 
         //Item을 생성하기 위해 선언해야 하는 생성자
-        public Item(string itemName, string itemType, bool useNow, int itemATK, int itemDEF, int itemHP, int itemBuyGold, string itemInformationTxt)
+        public Item(string itemName, Rarity rarity,string itemType, bool useNow, int itemATK, int itemDEF, int itemHP, int itemBuyGold, string itemInformationTxt)
         {
             this.ItemName = itemName;
+            this.Rarity = rarity;
             this.ItemType = itemType;
             this.UseNow = useNow;
             this.ItemATK = itemATK;
@@ -43,7 +53,7 @@ namespace TextRPG
             UseNow = !UseNow;
 
             //아이템 착용
-            if(UseNow == true)
+            if (UseNow == true)
             {
                 Player.PlayerAbilityStatus.PlayerNowATK += ItemATK;
                 Player.PlayerAbilityStatus.PlayerNowDEF += ItemDEF;
@@ -58,4 +68,5 @@ namespace TextRPG
             DataManager.PlayerDataSave();
         }
     }
+
 }

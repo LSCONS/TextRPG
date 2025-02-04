@@ -31,84 +31,79 @@ namespace TextRPG
         //아이템을 랜덤으로 생성하는 메소드
         public static void InstanceItem(int num)
         {
-            if(items == null) items = new List<Item>();
+            items = new List<Item>();
 
-            if (items.Count == 0)
+            for (int i = 0; i <num; i++)
             {
-                for (int i = 0; i < num; i++)
-                {
-                    int rand = random.Next(0, 10);
-                    Item item;
-
-                    if (rand == 0)
-                    {
-                        //상급 아이템 생성
-                        item = CreateItemFromData(highItemData);
-                        item = RearrangeValue(item, 5);
-                    }
-                    else if (rand <= 3)
-                    {
-                        //중급 아이템 생성
-                        item = CreateItemFromData(nomalItemData);
-                        item = RearrangeValue(item, 3);
-                    }
-                    else
-                    {
-                        //하급 아이템 생성
-                        item = CreateItemFromData(lowItemData);
-                        item = RearrangeValue(item, 1);
-                    }
-                    items.Add(item);
-                }
-                //아이템 이름대로 정렬
-                items.Sort((x, y) => x.ItemName.CompareTo(y.ItemName));
-                DataManager.PlayerDataSave(); //저장
+                Rarity rarity = RandomRarity();
+                items.Add(GetRandomItem(rarity));
             }
+
+            //아이템 이름대로 정렬 후 저장
+            items.Sort((x, y) => x.ItemName.CompareTo(y.ItemName));
+            DataManager.PlayerDataSave(); //저장
         }
 
 
-        //무작위로 생성한 List<Item>을 초기화하는 메서드
-        public static void ResetItemsList()
+        //레어도에 따라 랜덤으로 뽑은 Rarity를 반환하는 메서드
+        static Rarity RandomRarity()
         {
-            items.Clear();
+            int sumCount = rarityAllCount.Values.Sum();
+            int rand = random.Next(0, sumCount);
+            int i = 0;
+
+            //i의 값에 등장 확률을 차례대로 더한다.
+            //해당 과정 중 rand값이 해당 i의 값보다 작다면 해당 레어도를 반환.
+            foreach(var rarity in rarityAllCount)
+            {
+                i += rarity.Value;
+                if (rand < i) return rarity.Key;
+            }
+            return Rarity.Low;
         }
 
-
-        //저장되어 있는 Dictionary 아이템 값을 Item클래스에 맞춰서 반환하는 메서드***(추후 개선 필요)
-        public static Item CreateItemFromData(Dictionary<string, (string type, int itemATK, int itemDEF, int itemHP, int itemBuyGold, string information)> itemData)
+        
+        //입력 받은 Rarity에 따라 특정 아이템을 뽑아 반환하는 메서드
+        static Item GetRandomItem(Rarity rarity)
         {
-            List<string> keys = new List<string>(itemData.Keys);
-            string selectedKey = keys[random.Next(keys.Count)];
-            var data = itemData[selectedKey];
-            return new Item(selectedKey, data.type, false, data.itemATK, data.itemDEF, data.itemHP, data.itemBuyGold, data.information);
+            var itemList = allItem.Where(x => x.Rarity == rarity).ToList();
+            
+            int i = random.Next(itemList.Count);
+
+            return itemList[i];
         }
+
+
+        //모든 등급의 등장 수치를 정할 Dictionary
+        static Dictionary<Rarity, int> rarityAllCount = new Dictionary<Rarity, int> 
+        {
+            { Rarity.Low, 6 },
+            { Rarity.Normal, 3 },
+            { Rarity.High, 1 },
+        };
 
 
         //아이템들을 저장하고 있는 변수들.
-        public static Dictionary<string, (string type, int itemATK, int itemDEF, int itemHP, int itemBuyGold, string information)> lowItemData =
-    new Dictionary<string, (string type, int itemATK, int itemDEF, int itemHP, int itemBuyGold, string information)>
+        public static List<Item> allItem = new List<Item>
             {
-                {"나무 검", ("무기",3, 0, 0, 100, "없는 것 보다 나은 검이다.") },
-                {"나무 막대기", ("무기", 2, 0, 0, 30, "없으나 마나 한 막대기다.") },
-                {"낡은 조끼",("방어구", 0, 2, 0, 30, "없으나 마나 한 옷이다") },
-                {"조끼", ("방어구", 0, 3, 0, 30, "없는 것 보다 나은 옷이다.") }
+    // ===== 하급 (lowItemData) =====
+    new Item("나무 검",     Rarity.Low, "무기",   false, 3,  0, 0, 100, "없는 것 보다 나은 검이다."),
+    new Item("나무 막대기", Rarity.Low, "무기",   false, 2,  0, 0, 30,  "없으나 마나 한 막대기다."),
+    new Item("낡은 조끼",   Rarity.Low, "방어구", false, 0,  2, 0, 30,  "없으나 마나 한 옷이다"),
+    new Item("조끼",        Rarity.Low, "방어구", false, 0,  3, 0, 30,  "없는 것 보다 나은 옷이다."),
+
+    // ===== 중급 (nomalItemData) =====
+    new Item("철 검",       Rarity.Normal, "무기",   false, 8,  0, 0, 300, "좋은 검이다."),
+    new Item("철 방망이",   Rarity.Normal, "무기",   false, 5,  0, 0, 200, "쓸만한 방망이다."),
+    new Item("철 갑옷",     Rarity.Normal, "방어구", false, 0,  8, 0, 300, "좋은 방어구다"),
+    new Item("가죽 갑옷",   Rarity.Normal, "방어구", false, 0,  5, 0, 200, "쓸만한 방어구다."),
+
+    // ===== 상급 (highItemData) =====
+    new Item("전설의 검",   Rarity.High, "무기",   false, 15, 0, 0, 1000, "전설의 검이다."),
+    new Item("강철 검",     Rarity.High, "무기",   false, 12, 0, 0, 500,  "철 검보다 단단한 검이다."),
+    new Item("전설의 갑옷", Rarity.High, "방어구", false, 0,  15,0, 1000, "전설의 갑옷이다"),
+    new Item("강철 갑옷",   Rarity.High, "방어구", false, 0,  12,0, 500,  "철 갑옷보다 단단한 갑옷이다.")
             };
-        public static Dictionary<string, (string type, int itemATK, int itemDEF, int itemHP, int itemBuyGold, string information)> nomalItemData =
-    new Dictionary<string, (string type, int itemATK, int itemDEF, int itemHP, int itemBuyGold, string information)>
-    {
-                {"철 검", ("무기",8, 0, 0, 300, "좋은 검이다.") },
-                {"철 방망이", ("무기", 5, 0, 0, 200, "쓸만한 방망이다.") },
-                {"철 갑옷",("방어구", 0, 8, 0, 300, "좋은 방어구다") },
-                {"가죽 갑옷", ("방어구", 0, 5, 0, 200, "쓸만한 방어구다.") }
-    };
-        public static Dictionary<string, (string type, int itemATK, int itemDEF, int itemHP, int itemBuyGold, string information)> highItemData =
-    new Dictionary<string, (string type, int itemATK, int itemDEF, int itemHP, int itemBuyGold, string information)>
-    {
-                {"전설의 검", ("무기",15, 0, 0, 1000, "전설의 검이다.") },
-                {"강철 검", ("무기", 12, 0, 0, 500, "철 검보다 단단한 검이다.") },
-                {"전설의 갑옷",("방어구", 0, 15, 0, 1000, "전설의 갑옷이다") },
-                {"강철 갑옷", ("방어구", 0, 12, 0, 500, "철 갑옷보다 단단한 갑옷이다.") }
-    };
 
     }
 }

@@ -9,9 +9,9 @@ namespace TextRPG
 {
     //구현해야 하는 것
 
-    //아이템을 생성하는 로직 변경
+    //아이템 판매 창에서 현재 골드 출력
 
-    //던전을 돌고 나온 이후 상점 아이템 초기화
+    //던전 입장 창에서 현재 체력 및 최대 체력 출력
 
     //생성하는 아이템 종류 추가
 
@@ -52,10 +52,10 @@ namespace TextRPG
                 {
                     DataManager.PlayerDataClear();
                     DataManager.PlayerDataReset();
+                    ItemInstanceManager.InstanceItem(5);
                 }
 
                 if (PlayerInventoryItem == null) PlayerInventoryItem = new List<Item>();
-                if (ItemInstanceManager.items == null) ItemInstanceManager.items = new List<Item>();
 
                 Console.Clear();
                 Console.WriteLine(TextManager.StartGameTxt());
