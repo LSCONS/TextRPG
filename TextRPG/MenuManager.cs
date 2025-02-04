@@ -211,10 +211,10 @@ namespace TextRPG
 
 
         //레벨 업 창으로 넘어간 경우
-        public static void PlayerLevelUpMenu(string? message)
+        public static void PlayerLevelUpMenu(string? message, int beforeMaxHP, int beforeATK, int beforeDEF, int beforeNowHP)
         {
             Console.Clear();
-            Console.WriteLine(TextManager.PlayerLevelUpTxt());
+            Console.WriteLine(TextManager.PlayerLevelUpTxt(beforeMaxHP, beforeATK, beforeDEF, beforeNowHP));
             Console.Write(TextManager.SelectNumberTxt(message));
             string playerInput = Console.ReadLine();
 
@@ -224,7 +224,7 @@ namespace TextRPG
                     break;
 
                 default:
-                    PlayerLevelUpMenu("잘못된 입력입니다.");
+                    PlayerLevelUpMenu("잘못된 입력입니다.", beforeMaxHP, beforeATK, beforeDEF, beforeNowHP);
                     break;
 
             }
@@ -375,8 +375,6 @@ namespace TextRPG
             int sumDamage = 0;
             int rewardGold = 0;
 
-            //상점 아이템 초기화
-            ItemInstanceManager.InstanceItem(5);
 
             switch (dungeonLevel)
             {
@@ -421,23 +419,30 @@ namespace TextRPG
                     PlayerNowGold += rewardGold;
                     PlayerLevelNowValue += levelValue;
 
+                    int beforeMaxHP = PlayerMaxHP;
+                    int beforeATK = PlayerNowATK;
+                    int beforeDEF = PlayerNowDEF;
                     int beforeNowLevel = PlayerNowLevel;
                     int beforeLevelRequestValue = PlayerLevelRequestValue;
+                    int beforeNowHP = PlayerNowHP;
+
 
                     //성공 이후 플레이어의 레벨이 요구치를 충족했을 경우
                     if (PlayerLevelRequestValue <= PlayerLevelNowValue)
                     {
-                        PlayerNowLevel += 1;
+                        Player.PlayerLevelUp();
                         PlayerLevelRequestValue = PlayerLevelDefaultRequestValue + (int)(PlayerLevelRequestValue * 1.2f);
                     }
                     DataManager.PlayerDataSave();
 
+                    //상점 아이템 초기화
+                    ItemInstanceManager.InstanceItem(5 + PlayerNowLevel);
 
                     DungeonClearMenu(null, dungeonLevel, sumDamage, rewardGold, levelValue, beforeNowLevel, beforeLevelRequestValue);
 
-                    if (PlayerLevelRequestValue <= PlayerLevelNowValue)
+                    if (beforeLevelRequestValue <= PlayerLevelNowValue)
                     {
-                        PlayerLevelUpMenu(null);
+                        PlayerLevelUpMenu(null, beforeMaxHP, beforeATK, beforeDEF, beforeNowHP);
                     }
                 }
             }

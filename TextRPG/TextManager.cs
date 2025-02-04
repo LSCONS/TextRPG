@@ -142,7 +142,7 @@ namespace TextRPG
             result.AppendLine("이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.");
             result.AppendLine();
             result.AppendLine($"최대체력 : {PlayerMaxHP}");
-            result.AppendLine($"현재체력 : {PlayerNowHP})");
+            result.AppendLine($"현재체력 : {PlayerNowHP}");
             result.AppendLine();
             result.AppendLine("1. 쉬운 던전 \\ 방어력 5 이상 권장");
             result.AppendLine("2. 일반 던전 \\ 방어력 11 이상 권장");
@@ -364,20 +364,19 @@ namespace TextRPG
 
 
         //플레이어가 레벨 업을 달성할 시 출력할 텍스트
-        public static string PlayerLevelUpTxt()
+        public static string PlayerLevelUpTxt(int beforeMaxHP, int beforeATK, int beforeDEF, int beforeNowHP)
         {
             StringBuilder result = new StringBuilder();
 
             result.AppendLine("레벨 업");
             result.AppendLine("플레이어의 레벨이 상승했습니다.");
             result.AppendLine();
-            result.AppendLine($"최대체력 : {PlayerMaxHP} -> 추가"); //***추가 텍스트 추가
-            result.AppendLine($"현재체력 : {PlayerNowHP} -> 추가");
-            result.AppendLine($"공격력 : {PlayerNowATK}  -> 추가");
-            result.AppendLine($"방어력 : {PlayerNowDEF}  -> 추가");
+            result.AppendLine($"최대체력 : {beforeMaxHP} -> {PlayerMaxHP}");
+            result.AppendLine($"현재체력 : {beforeNowHP} -> {PlayerNowHP}");
+            result.AppendLine($"공격력 : {beforeATK} -> {PlayerNowATK}");
+            result.AppendLine($"방어력 : {beforeDEF} -> {PlayerNowDEF}");
             result.AppendLine();
             result.AppendLine("0. 나가기");
-
 
             return result.ToString();
         }
