@@ -8,7 +8,6 @@ using static TextRPG.Player.PlayerAbilityStatus;
 
 namespace TextRPG
 {
-    //게임을 시작하면 데이터를 로드함***
     //해당 json을 확인하고 null이거나 오류가 발생할 경우 플레이어 데이터를 초기화시킴.
     internal class DataManager
     {

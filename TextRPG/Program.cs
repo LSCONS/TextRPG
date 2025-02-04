@@ -11,6 +11,7 @@ namespace TextRPG
         static void Main(string[] args)
         {
             GameManager gameManager = GameManager.Instance;
+            AudioManager.PlayBGM(AudioManager.pathBGM);
             gameManager.StartGame();
         }
     }

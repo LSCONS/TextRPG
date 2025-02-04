@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static TextRPG.Player.PlayerAbilityStatus;
-using NAudio.Wave;
 
 namespace TextRPG
 {
@@ -37,8 +36,7 @@ namespace TextRPG
         // private 생성자로 외부에서 new 방지
         private GameManager() { }
 
-        static IWavePlayer bgmPlayer;
-        static AudioFileReader bgmReader;
+
 
         public void StartGame()
         {
