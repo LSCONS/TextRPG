@@ -247,7 +247,6 @@ namespace TextRPG
         {
             Console.Clear();
             Console.WriteLine(TextManager.ShopBuyTxt(playerItemList));
-            Console.WriteLine();
             Console.Write(TextManager.SelectNumberTxt(message));
 
             string playerInput = Console.ReadLine();
@@ -283,7 +282,6 @@ namespace TextRPG
 
             Console.Clear();
             Console.WriteLine(TextManager.ShopSellTxt(playerItemList));
-            Console.WriteLine();
             Console.Write(TextManager.SelectNumberTxt(message));
             string playerInput = Console.ReadLine();
 

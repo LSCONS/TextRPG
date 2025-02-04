@@ -8,15 +8,20 @@ using static TextRPG.Player.PlayerAbilityStatus;
 namespace TextRPG
 {
     //구현해야 하는 것
-    //5. 레벨이 오를수록 상점에 나타나는 아이템의 양이 증가
-
-    //던전을 돌고 나온 이후 상점 아이템 초기화
 
     //상점 구매랑 상점 판매에 따라 아이템 텍스트 변환 기능
 
+    //아이템을 생성하는 로직 변경
+
+    //던전을 돌고 나온 이후 상점 아이템 초기화
+
     //생성하는 아이템 종류 추가
 
-    //아이템을 생성하는 로직 변경
+    //창 변경시 효과음 소리
+
+    //배경음악 추가
+
+    //5. 레벨이 오를수록 상점에 나타나는 아이템의 양이 증가
     public class GameManager
     {
         private static GameManager _instance;
