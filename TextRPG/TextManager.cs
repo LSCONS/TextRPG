@@ -10,6 +10,8 @@ namespace TextRPG
     //다양한 텍스트 저장
     internal class TextManager
     {
+
+        #region 시작 및 메인 메뉴 텍스트 관리 /*시작 /*메인메뉴
         //시작 할 때 출력할 텍스트
         public static string StartGameTxt()
         {
@@ -35,22 +37,7 @@ namespace TextRPG
         }
 
 
-        //번호 선택을 알리는 텍스트
-        public static string SelectNumberTxt(string? message)
-        {
-            StringBuilder result = new StringBuilder();
-            result.AppendLine("원하시는 행동을 입력해주세요.");
-            if (message != null)
-            {
-                result.AppendLine(message);
-            }
-            result.Append(">> ");
-
-            return result.ToString();
-        }
-
-
-        //플레이어의 스테이터스를 출력할 텍스트
+        //메인 메뉴에서 플레이어의 스테이터스를 출력할 텍스트
         public static string PlayerAbilityStatusTxt(List<Item> playerItemList)
         {
             string itemTxt = "";
@@ -89,7 +76,7 @@ namespace TextRPG
         }
 
 
-        //플레이어의 인벤토리를 출력할 텍스트
+        //메인 메뉴에서 플레이어의 인벤토리를 출력할 텍스트
         public static string PlayerInventoryTxt(List<Item> playerItemList)
         {
             StringBuilder result = new StringBuilder();
@@ -99,6 +86,7 @@ namespace TextRPG
             result.AppendLine();
             result.AppendLine("[아이템 목록]");
             result.Append(SortItemList(playerItemList, false));
+            result.AppendLine();
             result.AppendLine("1. 장착 관리");
             result.AppendLine("0. 나가기");
 
@@ -106,23 +94,7 @@ namespace TextRPG
         }
 
 
-        //플레이어의 장비 창을 출력할 텍스트
-        public static string PlayerEquippedSettingTxt(List<Item> playerItemList)
-        {
-            StringBuilder result = new StringBuilder();
-
-            result.AppendLine("인벤토리 - 장착 관리");
-            result.AppendLine("보유 중인 아이템을 관리할 수  있습니다.");
-            result.AppendLine();
-            result.AppendLine("[아이템 목록]");
-            result.Append(SortItemList(playerItemList, false));
-            result.AppendLine("0. 나가기");
-
-            return result.ToString();
-        }
-
-
-        //상점 창을 출력할 텍스트
+        //메인 메뉴에서 상점 창으로 넘어갈 때 출력할 텍스트
         public static string ShopMenuTxt(List<Item> playerItemList)
         {
             StringBuilder result = new StringBuilder();
@@ -144,6 +116,46 @@ namespace TextRPG
         }
 
 
+        //메인 메뉴에서 휴식 창에 들어가면 출력할 텍스트
+        public static string RestMenuTxt()
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.AppendLine("휴식하기");
+            result.AppendLine($"500 G 를 내면 체력을 회복할 수 있습니다. (보유 골드 : {PlayerNowGold} G)");
+            result.AppendLine($"최대 체력 : {PlayerMaxHP}");
+            result.AppendLine($"현재 체력 : {PlayerNowHP}");
+            result.AppendLine();
+            result.AppendLine("1. 휴식하기");
+            result.AppendLine("0. 나가기");
+
+            return result.ToString();
+        }
+
+
+        //메인 메뉴에서 던전에 입장하면 출력할 텍스트
+        public static string DungeonMenuTxt()
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.AppendLine("던전입장");
+            result.AppendLine("이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.");
+            result.AppendLine();
+            result.AppendLine($"최대체력 : {PlayerMaxHP}");
+            result.AppendLine($"현재체력 : {PlayerNowHP})");
+            result.AppendLine();
+            result.AppendLine("1. 쉬운 던전 \\ 방어력 5 이상 권장");
+            result.AppendLine("2. 일반 던전 \\ 방어력 11 이상 권장");
+            result.AppendLine("3. 어려운 던전 \\ 방어력 17 이상 권장");
+            result.AppendLine();
+            result.AppendLine("0. 나가기");
+
+            return result.ToString();
+        }
+        #endregion
+
+
+        #region 상점 아이템 구매 및 판매 관리 /*구매 /*판매
         //상점에서 구입창에 들어가면 출력할 텍스트
         public static string ShopBuyTxt(List<Item> playerItemList)
         {
@@ -181,84 +193,10 @@ namespace TextRPG
 
             return result.ToString();
         }
+        #endregion
 
 
-        //입력 받은 아이템 리스트를 가지고 정렬을 한 뒤 string으로 반환하는 메서드
-        public static string SortItemList(List<Item> itemList, bool isBuy)
-        {
-            StringBuilder itemTxt = new StringBuilder();
-            itemTxt.AppendLine("======================================================================================================");
-            itemTxt.AppendLine($"번호     이름        종류       공격력     방어력     {(isBuy ? "구매가격" : "판매가격")}     설명 ");
-            itemTxt.AppendLine("======================================================================================================");
-
-            for (int i = 0; i < itemList.Count; i++)
-            {
-                string num = (i + 1).ToString();
-                string name = SortPadRightItemList(itemList[i].ItemName, 11);
-                string type = SortPadRightItemList(itemList[i].ItemType, 10);
-                string ATK = SortPadRightItemList(itemList[i].ItemATK.ToString(), 10);
-                string DEF = SortPadRightItemList(itemList[i].ItemDEF.ToString(), 10);
-                string gold = "";
-                string information = SortPadRightItemList(itemList[i].ItemInformationTxt, 30);
-
-                if (isBuy == true)  { gold = SortPadRightItemList(itemList[i].ItemBuyGold.ToString() + " G", 12); }
-                else                { gold = SortPadRightItemList(itemList[i].ItemSellGold.ToString() + " G", 12); }
-
-
-                //플에이어가 착용하고 있는지 확인
-                if (itemList[i].UseNow == true) { itemTxt.AppendLine($"- {num, -2} {"[E]",-2} {name} {type} {ATK} {DEF} {gold} {information}");  }
-                else                            { itemTxt.AppendLine($"- {num,-6} {name} {type} {ATK} {DEF} {gold} {information}"); }
-
-
-            }
-            itemTxt.AppendLine("======================================================================================================");
-
-            return itemTxt.ToString();
-        }
-
-
-        //해당 텍스트에 한글이 얼마나 들어있는지 확인하고 정렬의 수를 조절하는 메서드
-        static string SortPadRightItemList(string input, int defaultLength)
-        {
-            int countKOR = input.Count(x => x >= 0xAC00 && x <= 0xD7A3);
-            return input.PadRight(defaultLength - countKOR, ' ');
-        }
-
-
-        //휴식 창에 들어가면 출력할 텍스트
-        public static string RestMenuTxt()
-        {
-            StringBuilder result = new StringBuilder();
-
-            result.AppendLine("휴식하기");
-            result.AppendLine($"500 G 를 내면 체력을 회복할 수 있습니다. (보유 골드 : {PlayerNowGold} G)");
-            result.AppendLine($"최대 체력 : {PlayerMaxHP}");
-            result.AppendLine($"현재 체력 : {PlayerNowHP}");
-            result.AppendLine();
-            result.AppendLine("1. 휴식하기");
-            result.AppendLine("0. 나가기");
-
-            return result.ToString();
-        }
-
-
-        //던전에 입장하면 출력할 텍스트
-        public static string DungeonMenuTxt()
-        {
-            StringBuilder result = new StringBuilder();
-
-            result.AppendLine("던전입장");
-            result.AppendLine("이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.");
-            result.AppendLine();
-            result.AppendLine("1. 쉬운 던전 \\ 방어력 5 이상 권장");
-            result.AppendLine("2. 일반 던전 \\ 방어력 11 이상 권장");
-            result.AppendLine("3. 어려운 던전 \\ 방어력 17 이상 권장");
-            result.AppendLine("0. 나가기");
-
-            return result.ToString();
-        }
-
-
+        #region 던전 클리어 및 실패 등 처리 관리 /*클리어 /*실패 /*사망
         //던전 클리어 시 출력할 텍스트
         public static string DungeonClearTxt(int dungeonLevel, int damage, int rewardGold, int levelValue, int beforeLevel, int beforeLevelRequest)
         {
@@ -330,7 +268,7 @@ namespace TextRPG
         }
 
 
-        //사망 시 출력할 텍스트
+        //던전에서 사망 시 출력할 텍스트
         public static string PlayerDieTxt(string name, string job, int level, int hp, int ATK, int DEF, int levelValue, int requestLevelValue, int gold)
         {
             StringBuilder result = new StringBuilder();
@@ -349,6 +287,25 @@ namespace TextRPG
             result.AppendLine($"골드 {gold}");
             result.AppendLine();
             result.AppendLine("0. 다시하기");
+
+            return result.ToString();
+        }
+        #endregion
+
+
+        #region 플레이어 관련 출력 관리 /*장비 /*이름 /*직업 /*입력내용 확인 /*레벨 업
+        //플레이어의 장비 창을 출력할 텍스트
+        public static string PlayerEquippedSettingTxt(List<Item> playerItemList)
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.AppendLine("인벤토리 - 장착 관리");
+            result.AppendLine("보유 중인 아이템을 관리할 수  있습니다.");
+            result.AppendLine();
+            result.AppendLine("[아이템 목록]");
+            result.Append(SortItemList(playerItemList, false));
+            result.AppendLine();
+            result.AppendLine("0. 나가기");
 
             return result.ToString();
         }
@@ -423,6 +380,65 @@ namespace TextRPG
 
 
             return result.ToString();
+        }
+
+        #endregion
+
+
+        //번호 선택을 알리는 텍스트
+        public static string SelectNumberTxt(string? message)
+        {
+            StringBuilder result = new StringBuilder();
+            result.AppendLine("원하시는 행동을 입력해주세요.");
+            if (message != null)
+            {
+                result.AppendLine(message);
+            }
+            result.Append(">> ");
+
+            return result.ToString();
+        }
+
+
+        //입력 받은 아이템 리스트를 가지고 정렬을 한 뒤 string으로 반환하는 메서드
+        public static string SortItemList(List<Item> itemList, bool isBuy)
+        {
+            StringBuilder itemTxt = new StringBuilder();
+            itemTxt.AppendLine("======================================================================================================");
+            itemTxt.AppendLine($"번호     이름        종류       공격력     방어력     {(isBuy ? "구매가격" : "판매가격")}     설명 ");
+            itemTxt.AppendLine("======================================================================================================");
+
+            for (int i = 0; i < itemList.Count; i++)
+            {
+                string num = (i + 1).ToString();
+                string name = SortPadRightItemList(itemList[i].ItemName, 11);
+                string type = SortPadRightItemList(itemList[i].ItemType, 10);
+                string ATK = SortPadRightItemList(itemList[i].ItemATK.ToString(), 10);
+                string DEF = SortPadRightItemList(itemList[i].ItemDEF.ToString(), 10);
+                string gold = "";
+                string information = SortPadRightItemList(itemList[i].ItemInformationTxt, 30);
+
+                if (isBuy == true)  { gold = SortPadRightItemList(itemList[i].ItemBuyGold.ToString() + " G", 12); }
+                else                { gold = SortPadRightItemList(itemList[i].ItemSellGold.ToString() + " G", 12); }
+
+
+                //플에이어가 착용하고 있는지 확인
+                if (itemList[i].UseNow == true) { itemTxt.AppendLine($"- {num, -2} {"[E]",-2} {name} {type} {ATK} {DEF} {gold} {information}");  }
+                else                            { itemTxt.AppendLine($"- {num,-6} {name} {type} {ATK} {DEF} {gold} {information}"); }
+
+
+            }
+            itemTxt.AppendLine("======================================================================================================");
+
+            return itemTxt.ToString();
+        }
+
+
+        //해당 텍스트에 한글이 얼마나 들어있는지 확인하고 정렬의 수를 조절하는 메서드
+        static string SortPadRightItemList(string input, int defaultLength)
+        {
+            int countKOR = input.Count(x => x >= 0xAC00 && x <= 0xD7A3);
+            return input.PadRight(defaultLength - countKOR, ' ');
         }
     }
 }

@@ -9,6 +9,8 @@ namespace TextRPG
 {
     internal class MenuManager
     {
+        #region 플레이어 관련 메뉴 /*이름 /*직업 /*입력 확정 /*상태 /*인벤토리 /*장착 /*레벨 업
+
         //플레이어 이름 입력 창으로 들어간 경우
         public static string InputPlayerNameMenu(string? message)
         {
@@ -97,12 +99,11 @@ namespace TextRPG
         }
 
 
-        //메인 메뉴에서 상태 창으로 들어간 경우
+        //메인 메뉴에서 플레이어 상태 창으로 들어간 경우
         public static void InputStatusMenu(List<Item> playerItemList, string? message)
         {
             Console.Clear();
             Console.WriteLine(TextManager.PlayerAbilityStatusTxt(playerItemList));
-            Console.WriteLine();
             Console.Write(TextManager.SelectNumberTxt(message));
             string playerInput = Console.ReadLine();
 
@@ -119,12 +120,11 @@ namespace TextRPG
         }
 
 
-        //메인 메뉴에서 인벤토리로 들어간 경우
+        //메인 메뉴에서 플레이어 인벤토리로 들어간 경우
         public static void InputInventoryMenu(List<Item> playerItemList, string? message)
         {
             Console.Clear();
             Console.WriteLine(TextManager.PlayerInventoryTxt(playerItemList));
-            Console.WriteLine();
             Console.Write(TextManager.SelectNumberTxt(message));
             string playerInput = Console.ReadLine();
 
@@ -145,12 +145,11 @@ namespace TextRPG
         }
 
 
-        //인벤토리에서 아이템 장착으로 들어간 경우
+        //플레이어 인벤토리에서 아이템 장착으로 들어간 경우
         public static void SelectEquiqqedNumMenu(List<Item> playerItemList, string? message)
         {
             Console.Clear();
             Console.WriteLine(TextManager.PlayerEquippedSettingTxt(playerItemList));
-            Console.WriteLine();
             Console.Write(TextManager.SelectNumberTxt(message));
             string playerInput = Console.ReadLine();
 
@@ -211,12 +210,34 @@ namespace TextRPG
         }
 
 
+        //레벨 업 창으로 넘어간 경우
+        public static void PlayerLevelUpMenu(string? message)
+        {
+            Console.Clear();
+            Console.WriteLine(TextManager.PlayerLevelUpTxt());
+            Console.Write(TextManager.SelectNumberTxt(message));
+            string playerInput = Console.ReadLine();
+
+            switch (playerInput)
+            {
+                case "0":
+                    break;
+
+                default:
+                    PlayerLevelUpMenu("잘못된 입력입니다.");
+                    break;
+
+            }
+        }
+        #endregion
+
+
+        #region 상점 관련 /*상점 입장 /*아이템 판매 /*아이템 구매
         //메인 메뉴에서 상점으로 들어간 경우
         public static void InputShopMenu(List<Item> playerItemList, string? message)
         {
             Console.Clear();
             Console.WriteLine(TextManager.ShopMenuTxt(playerItemList));
-            Console.WriteLine();
             Console.Write(TextManager.SelectNumberTxt(message));
             string playerInput = Console.ReadLine();
 
@@ -286,7 +307,7 @@ namespace TextRPG
 
             if (playerInput == "0")
             { }
-            else if (int.TryParse(playerInput, out int value) && ItemInstanceManager.items.Count >= value)
+            else if (int.TryParse(playerInput, out int value) && playerItemList.Count >= value)
             {
                 Item item = playerItemList[value - 1];
                 if (item.UseNow == false)
@@ -306,15 +327,16 @@ namespace TextRPG
                 InputShopSellMenu(playerItemList, "잘못된 입력입니다.");
             }
         }
+        #endregion
 
 
+        #region 던전 관련 /*던전 입장 /*성공 /*실패 /*사망
         //메인 메뉴에서 던전 입장으로 들어간 경우
         public static void InputDungeonMenu(string? message)
         {
 
             Console.Clear();
             Console.WriteLine(TextManager.DungeonMenuTxt());
-            Console.WriteLine();
             Console.Write(TextManager.SelectNumberTxt(message));
             string playerInput = Console.ReadLine();
 
@@ -445,7 +467,6 @@ namespace TextRPG
         {
             Console.Clear();
             Console.WriteLine(TextManager.PlayerDieTxt(name, job, level, hp, ATK, DEF, levelValue, requestLevelValue, gold));
-            Console.WriteLine();
             Console.Write(TextManager.SelectNumberTxt(message));
             string playerInput = Console.ReadLine();
 
@@ -487,7 +508,6 @@ namespace TextRPG
         {
             Console.Clear();
             Console.WriteLine(TextManager.DungeonClearTxt(dungeonLevel, damage, rewardGold, levelValue, beforeLevel, beforeLevelRequest));
-            Console.WriteLine();
             Console.Write(TextManager.SelectNumberTxt(message));
             string playerInput = Console.ReadLine();
 
@@ -509,7 +529,6 @@ namespace TextRPG
         {
             Console.Clear();
             Console.WriteLine(TextManager.DungeonFailedTxt(dungeonLevel, damage));
-            Console.WriteLine();
             Console.Write(TextManager.SelectNumberTxt(message));
             string playerInput = Console.ReadLine();
 
@@ -524,6 +543,7 @@ namespace TextRPG
 
             }
         }
+        #endregion
 
 
         //메인 메뉴에서 휴식으로 입장한 경우
@@ -531,7 +551,6 @@ namespace TextRPG
         {
             Console.Clear();
             Console.WriteLine(TextManager.RestMenuTxt());
-            Console.WriteLine();
             Console.Write(TextManager.SelectNumberTxt(message));
             string playerInput = Console.ReadLine();
 
@@ -555,28 +574,6 @@ namespace TextRPG
 
                 default:
                     InputRestMenu("잘못된 입력입니다.");
-                    break;
-
-            }
-        }
-
-
-        //레벨 업 창으로 넘어간 경우
-        public static void PlayerLevelUpMenu(string? message)
-        {
-            Console.Clear();
-            Console.WriteLine(TextManager.PlayerLevelUpTxt());
-            Console.WriteLine();
-            Console.Write(TextManager.SelectNumberTxt(message));
-            string playerInput = Console.ReadLine();
-
-            switch (playerInput)
-            {
-                case "0":
-                    break;
-
-                default:
-                    PlayerLevelUpMenu("잘못된 입력입니다.");
                     break;
 
             }
