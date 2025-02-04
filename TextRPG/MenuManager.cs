@@ -459,6 +459,8 @@ namespace TextRPG
             }
         }
 
+
+        //플레이어가 사망한 후 데이터 처리 및 다음 메뉴로 넘어가는 메서드
         public static void PlayerDieAction()
         {
             PlayerNowHP = 0;

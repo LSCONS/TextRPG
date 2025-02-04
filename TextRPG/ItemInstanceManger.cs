@@ -24,9 +24,6 @@ namespace TextRPG
             else if (item.ItemType == "방어구")
             { item.ItemDEF += rand; }
 
-            //아이템 설명 텍스트 초기화
-            item.ItemEquippedSettingTxt = item.InputItemEquippedSettingTxt(false);
-
             return item;
         }
 

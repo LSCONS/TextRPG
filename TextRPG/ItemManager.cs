@@ -18,7 +18,6 @@ namespace TextRPG
         public int ItemBuyGold { get; set; }
         public int ItemSellGold { get; set; }
         public string ItemInformationTxt { get; init; }
-        public string ItemEquippedSettingTxt { get; set; }
 
         private float itemSellMultiple = 0.8f;
 
@@ -35,25 +34,6 @@ namespace TextRPG
             this.ItemBuyGold = itemBuyGold;
             this.ItemSellGold = (int)(itemBuyGold * itemSellMultiple);
             this.ItemInformationTxt = itemInformationTxt;
-            this.ItemEquippedSettingTxt = InputItemEquippedSettingTxt(useNow);
-        }
-
-
-        //현재 useNow 값에 따라 설명 텍스트를 변경하는 메서드
-        public string InputItemEquippedSettingTxt(bool useNow)
-        {
-            string result = "";
-
-            if (useNow)
-            {
-                result = $" [E]{ItemName} | 공격력 +{ItemATK} | 방어력 +{ItemDEF} | {ItemInformationTxt} | 판매 가치 : {ItemSellGold}";
-            }
-            else
-            {
-                result = $" {ItemName} | 공격력 +{ItemATK} | 방어력 +{ItemDEF} | {ItemInformationTxt} | 판매 가치 : {ItemSellGold}";
-            }
-
-            return result;
         }
 
 
@@ -75,8 +55,6 @@ namespace TextRPG
                 Player.PlayerAbilityStatus.PlayerNowDEF -= ItemDEF;
                 Player.PlayerAbilityStatus.PlayerNowHP -= ItemHP;
             }
-
-            ItemEquippedSettingTxt = InputItemEquippedSettingTxt(UseNow);
             DataManager.PlayerDataSave();
         }
     }

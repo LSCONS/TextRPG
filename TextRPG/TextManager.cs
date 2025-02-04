@@ -92,19 +92,13 @@ namespace TextRPG
         //플레이어의 인벤토리를 출력할 텍스트
         public static string PlayerInventoryTxt(List<Item> playerItemList)
         {
-            StringBuilder itemTxt = new StringBuilder();
             StringBuilder result = new StringBuilder();
-
-            foreach (Item item in playerItemList)
-            {
-                itemTxt.AppendLine("-" + item.ItemEquippedSettingTxt);
-            }
 
             result.AppendLine("인벤토리");
             result.AppendLine("보유 중인 아이템을 관리할 수 있습니다.");
             result.AppendLine();
             result.AppendLine("[아이템 목록]");
-            result.AppendLine(itemTxt.ToString());
+            result.Append(SortItemList(playerItemList, false));
             result.AppendLine("1. 장착 관리");
             result.AppendLine("0. 나가기");
 
@@ -115,19 +109,13 @@ namespace TextRPG
         //플레이어의 장비 창을 출력할 텍스트
         public static string PlayerEquippedSettingTxt(List<Item> playerItemList)
         {
-            StringBuilder itemTxt = new StringBuilder();
             StringBuilder result = new StringBuilder();
-
-            for (int i = 0; i < playerItemList.Count; i++)
-            {
-                itemTxt.AppendLine($"- {i + 1}{playerItemList[i].ItemEquippedSettingTxt}");
-            }
 
             result.AppendLine("인벤토리 - 장착 관리");
             result.AppendLine("보유 중인 아이템을 관리할 수  있습니다.");
             result.AppendLine();
             result.AppendLine("[아이템 목록]");
-            result.AppendLine(itemTxt.ToString());
+            result.Append(SortItemList(playerItemList, false));
             result.AppendLine("0. 나가기");
 
             return result.ToString();
@@ -137,14 +125,8 @@ namespace TextRPG
         //상점 창을 출력할 텍스트
         public static string ShopMenuTxt(List<Item> playerItemList)
         {
-            StringBuilder itemTxt = new StringBuilder();
-            foreach (Item item in ItemInstanceManager.items)
-            {
-                itemTxt.AppendLine(item.ItemEquippedSettingTxt);
-            }
-
-
             StringBuilder result = new StringBuilder();
+
             result.AppendLine("상점");
             result.AppendLine("필요한 아이템을 얻을 수 있는 상점입니다.");
             result.AppendLine();
@@ -152,11 +134,7 @@ namespace TextRPG
             result.AppendLine($"{PlayerNowGold} G");
             result.AppendLine();
             result.AppendLine("[아이템 목록]");
-            result.AppendLine("======================================================================================================");
-            result.AppendLine("  이름        종류       공격력     방어력     구매가격     설명 ");
-            result.AppendLine("======================================================================================================");
-            result.Append(SortItemList(ItemInstanceManager.items, false, true));
-            result.AppendLine("======================================================================================================");
+            result.Append(SortItemList(ItemInstanceManager.items, true));
             result.AppendLine();
             result.AppendLine("1. 아이템 구매");
             result.AppendLine("2. 아이템 판매");
@@ -178,11 +156,7 @@ namespace TextRPG
             result.AppendLine($"{PlayerNowGold} G");
             result.AppendLine();
             result.AppendLine("[아이템 목록]");
-            result.AppendLine("======================================================================================================");
-            result.AppendLine("번호     이름        종류       공격력     방어력     구매가격     설명 ");
-            result.AppendLine("======================================================================================================");
-            result.Append(SortItemList(ItemInstanceManager.items, true, true));
-            result.AppendLine("======================================================================================================");
+            result.Append(SortItemList(ItemInstanceManager.items, true));
             result.AppendLine();
             result.AppendLine("0. 나가기");
 
@@ -202,11 +176,7 @@ namespace TextRPG
             result.AppendLine($"{PlayerNowGold} G");
             result.AppendLine();
             result.AppendLine("[아이템 목록]");
-            result.AppendLine("======================================================================================================");
-            result.AppendLine("번호     이름        종류       공격력     방어력     판매가격     설명 ");
-            result.AppendLine("======================================================================================================");
-            result.Append(SortItemList(playerItemList, true, false));
-            result.AppendLine("======================================================================================================");
+            result.Append(SortItemList(playerItemList, false));
             result.AppendLine("0. 나가기");
 
             return result.ToString();
@@ -214,9 +184,12 @@ namespace TextRPG
 
 
         //입력 받은 아이템 리스트를 가지고 정렬을 한 뒤 string으로 반환하는 메서드
-        public static string SortItemList(List<Item> itemList, bool isNum, bool isBuy)
+        public static string SortItemList(List<Item> itemList, bool isBuy)
         {
             StringBuilder itemTxt = new StringBuilder();
+            itemTxt.AppendLine("======================================================================================================");
+            itemTxt.AppendLine($"번호     이름        종류       공격력     방어력     {(isBuy ? "구매가격" : "판매가격")}     설명 ");
+            itemTxt.AppendLine("======================================================================================================");
 
             for (int i = 0; i < itemList.Count; i++)
             {
@@ -233,20 +206,12 @@ namespace TextRPG
 
 
                 //플에이어가 착용하고 있는지 확인
-                if (itemList[i].UseNow == true)
-                {
-                    //숫자를 표시할지 확인
-                    if(isNum == true) { itemTxt.AppendLine($"- {num, -2} {"[E]",-2} {name} {type} {ATK} {DEF} {gold} {information}"); }
-                    else              { itemTxt.AppendLine($"- {"[E]",-6} {name} {type} {ATK} {DEF} {gold} {information}"); }
-                }
-                else
-                {
-                    //숫자를 표시할지 확인
-                    if (isNum == true)  { itemTxt.AppendLine($"- {num,-6} {name} {type} {ATK} {DEF} {gold} {information}"); }
-                    else                { itemTxt.AppendLine($"- {name} {type} {ATK} {DEF} {gold} {information}");  }
-                }
+                if (itemList[i].UseNow == true) { itemTxt.AppendLine($"- {num, -2} {"[E]",-2} {name} {type} {ATK} {DEF} {gold} {information}");  }
+                else                            { itemTxt.AppendLine($"- {num,-6} {name} {type} {ATK} {DEF} {gold} {information}"); }
+
 
             }
+            itemTxt.AppendLine("======================================================================================================");
 
             return itemTxt.ToString();
         }

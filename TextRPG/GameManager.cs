@@ -9,8 +9,6 @@ namespace TextRPG
 {
     //구현해야 하는 것
 
-    //상점 구매랑 상점 판매에 따라 아이템 텍스트 변환 기능
-
     //아이템을 생성하는 로직 변경
 
     //던전을 돌고 나온 이후 상점 아이템 초기화
@@ -43,6 +41,7 @@ namespace TextRPG
         public void StartGame()
         {
             DataManager.PlayerDataLoad();
+            string? message = null;
 
             while (true)
             {
@@ -61,9 +60,10 @@ namespace TextRPG
                 Console.Clear();
                 Console.WriteLine(TextManager.StartGameTxt());
                 Console.WriteLine(TextManager.SelectMainMenuTxt());
-                Console.Write(TextManager.SelectNumberTxt(null));
+                Console.Write(TextManager.SelectNumberTxt(message));
                 string playerInput = Console.ReadLine();
 
+                message = null;
 
                 switch (playerInput)
                 {
@@ -87,9 +87,8 @@ namespace TextRPG
                         MenuManager.InputRestMenu(null);
                         break;
 
-
                     default:
-                        Console.WriteLine("잘못된 입력입니다.");
+                        message = "잘못된 입력입니다";
                         break;
                 }
             }
