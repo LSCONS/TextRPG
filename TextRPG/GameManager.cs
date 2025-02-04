@@ -20,8 +20,6 @@ namespace TextRPG
 
     //플레이어가 보낼 수 있는 최대 턴 추가
 
-    //레벨이 오를수록 상점에 나타나는 아이템의 양이 증가
-
     public class GameManager
     {
         private static GameManager _instance;
