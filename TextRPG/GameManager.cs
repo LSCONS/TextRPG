@@ -19,7 +19,6 @@ namespace TextRPG
     //던전 내부에서 특수 이벤트 추가
 
     //플레이어가 보낼 수 있는 최대 턴 추가
-
     public class GameManager
     {
         private static GameManager _instance;
