@@ -641,6 +641,8 @@ namespace TextRPG
             }
         }
 
+
+        //플레이어가 입력하는 입력값을 반환하는 메서드
         public static string InputNumber()
         {
             string playerInput = Console.ReadLine();
