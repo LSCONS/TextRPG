@@ -124,6 +124,7 @@ namespace TextRPG
 
             result.AppendLine("휴식하기");
             result.AppendLine($"500 G 를 내면 체력을 회복할 수 있습니다. (보유 골드 : {PlayerNowGold} G)");
+            result.AppendLine();
             result.AppendLine($"최대 체력 : {PlayerMaxHP}");
             result.AppendLine($"현재 체력 : {PlayerNowHP}");
             result.AppendLine();
@@ -133,6 +134,12 @@ namespace TextRPG
             return result.ToString();
         }
 
+        static Dictionary<int, (string, int)> DungeonType = new Dictionary<int, (string, int)>
+        {
+            {1, ("쉬운 던전", 5) },
+            {2, ("보통 던전", 11) },
+            {3, ("어려운 던전", 17) },
+        };
 
         //메인 메뉴에서 던전에 입장하면 출력할 텍스트
         public static string DungeonMenuTxt()
@@ -145,9 +152,19 @@ namespace TextRPG
             result.AppendLine($"최대체력 : {PlayerMaxHP}");
             result.AppendLine($"현재체력 : {PlayerNowHP}");
             result.AppendLine();
-            result.AppendLine("1. 쉬운 던전 \\ 방어력 5 이상 권장");
-            result.AppendLine("2. 일반 던전 \\ 방어력 11 이상 권장");
-            result.AppendLine("3. 어려운 던전 \\ 방어력 17 이상 권장");
+            result.AppendLine("========================================");
+            result.AppendLine("번호    장소             권장 방어력");
+            result.AppendLine("========================================");
+
+            for (int i = 1; i < DungeonType.Count + 1; i++)
+            {
+                string num = SortPadRightItemList("- "+ i.ToString(), 7);
+                string name = SortPadRightItemList(DungeonType[i].Item1, 16);
+                string recommandArmor = SortPadRightItemList(DungeonType[i].Item2.ToString(), 8);
+
+                result.AppendLine($"{num} {name} {recommandArmor}");
+            }
+            result.AppendLine("========================================");
             result.AppendLine();
             result.AppendLine("0. 나가기");
 

@@ -11,8 +11,7 @@ namespace TextRPG
         static async Task Main(string[] args)
         {
             GameManager gameManager = GameManager.Instance;
-            AudioManager audioManager = AudioManager.Instance;
-            audioManager.BGM_Start();
+            AudioManager.BGM_Start();
             gameManager.StartGame();
         }
     }

@@ -18,6 +18,8 @@ namespace TextRPG
         {
             Random random = new Random();
             int range = 0;
+            int ATK = 0;
+            int DEF = 0;
 
             switch (item.Rarity)
             {
@@ -35,13 +37,14 @@ namespace TextRPG
             }
 
             int rand = random.Next(-range, range +1);
+            ATK = item.ItemATK;
+            DEF = item.ItemDEF;
 
 
+            if (item.ItemType == "무기")        { ATK += rand; }
+            else if (item.ItemType == "방어구") { DEF += rand; }
 
-            if (item.ItemType == "무기")        { item.ItemATK += rand; }
-            else if (item.ItemType == "방어구") { item.ItemDEF += rand; }
-
-            return item;
+            return new Item(item.ItemName, item.Rarity, item.ItemType, item.UseNow, ATK, DEF, item.ItemHP, item.ItemBuyGold, item.ItemInformationTxt);
         }
 
 

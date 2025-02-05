@@ -20,7 +20,7 @@ namespace TextRPG
             {
                 Console.Clear();
                 Console.Write(TextManager.InputPlayerNameTxt(message));
-                playerName = Console.ReadLine();
+                playerName = InputNumber();
 
                 if (playerName.Replace(" ", "") == "")
                 {
@@ -53,7 +53,7 @@ namespace TextRPG
                 Console.Clear();
                 Console.WriteLine(TextManager.InputPlayerJobTxt());
                 Console.Write(TextManager.SelectNumberTxt(message));
-                playerInput = Console.ReadLine();
+                playerInput = InputNumber();
 
                 //해당 입력값이 직업에 정의되어있는지 확인
                 if (int.TryParse(playerInput, out jobsNumber) &&
@@ -81,7 +81,7 @@ namespace TextRPG
             Console.Clear();
             Console.WriteLine(TextManager.CheckToPlayerInput(playerInput));
             Console.Write(TextManager.SelectNumberTxt(message));
-            string playerNum = Console.ReadLine();
+            string playerNum = InputNumber();
 
             switch (playerNum)
             {
@@ -105,7 +105,7 @@ namespace TextRPG
             Console.Clear();
             Console.WriteLine(TextManager.PlayerAbilityStatusTxt(playerItemList));
             Console.Write(TextManager.SelectNumberTxt(message));
-            string playerInput = Console.ReadLine();
+            string playerInput = InputNumber();
 
             switch (playerInput)
             {
@@ -126,7 +126,7 @@ namespace TextRPG
             Console.Clear();
             Console.WriteLine(TextManager.PlayerInventoryTxt(playerItemList));
             Console.Write(TextManager.SelectNumberTxt(message));
-            string playerInput = Console.ReadLine();
+            string playerInput = InputNumber();
 
             switch (playerInput)
             {
@@ -151,7 +151,7 @@ namespace TextRPG
             Console.Clear();
             Console.WriteLine(TextManager.PlayerEquippedSettingTxt(playerItemList));
             Console.Write(TextManager.SelectNumberTxt(message));
-            string playerInput = Console.ReadLine();
+            string playerInput = InputNumber();
 
             if (playerInput == "0")
             { }
@@ -200,7 +200,7 @@ namespace TextRPG
                     }
                 }
 
-
+                AudioManager.PlayItemEquippedSE();//장비 장착 사운드 실행
                 SelectEquiqqedNumMenu(playerItemList, null);
             }
             else
@@ -216,7 +216,7 @@ namespace TextRPG
             Console.Clear();
             Console.WriteLine(TextManager.PlayerLevelUpTxt(beforeMaxHP, beforeATK, beforeDEF, beforeNowHP));
             Console.Write(TextManager.SelectNumberTxt(message));
-            string playerInput = Console.ReadLine();
+            string playerInput = InputNumber();
 
             switch (playerInput)
             {
@@ -239,7 +239,7 @@ namespace TextRPG
             Console.Clear();
             Console.WriteLine(TextManager.ShopMenuTxt(playerItemList));
             Console.Write(TextManager.SelectNumberTxt(message));
-            string playerInput = Console.ReadLine();
+            string playerInput = InputNumber();
 
             switch (playerInput)
             {
@@ -269,7 +269,7 @@ namespace TextRPG
             Console.WriteLine(TextManager.ShopBuyTxt(playerItemList));
             Console.Write(TextManager.SelectNumberTxt(message));
 
-            string playerInput = Console.ReadLine();
+            string playerInput = InputNumber();
 
             if (playerInput == "0") { }
             else if (int.TryParse(playerInput, out int value) && ItemInstanceManager.items.Count >= value)
@@ -280,8 +280,10 @@ namespace TextRPG
                     //상점 리스트 -> 플레이어 인벤토리 리스트로 아이템 이동
                     PlayerNowGold -= item.ItemBuyGold;
                     playerItemList.Add(item);
+                    
                     ItemInstanceManager.items.Remove(item);
                     DataManager.PlayerDataSave();       //데이터 저장
+                    AudioManager.PlayItemBuyOrSellSE();//구매 소리 출력
                     InputShopBuyMenu(playerItemList, "구입이 완료되었습니다.");
                 }
                 else
@@ -303,7 +305,7 @@ namespace TextRPG
             Console.Clear();
             Console.WriteLine(TextManager.ShopSellTxt(playerItemList));
             Console.Write(TextManager.SelectNumberTxt(message));
-            string playerInput = Console.ReadLine();
+            string playerInput = InputNumber();
 
             if (playerInput == "0")
             { }
@@ -315,6 +317,7 @@ namespace TextRPG
                     PlayerNowGold += item.ItemSellGold;
                     playerItemList.Remove(item);
                     DataManager.PlayerDataSave();       //데이터 저장
+                    AudioManager.PlayItemBuyOrSellSE();//판매 소리 출력
                     InputShopSellMenu(playerItemList, "판매 완료했습니다.");
                 }
                 else
@@ -338,7 +341,7 @@ namespace TextRPG
             Console.Clear();
             Console.WriteLine(TextManager.DungeonMenuTxt());
             Console.Write(TextManager.SelectNumberTxt(message));
-            string playerInput = Console.ReadLine();
+            string playerInput = InputNumber();
 
             switch (playerInput)
             {
@@ -438,10 +441,12 @@ namespace TextRPG
                     //상점 아이템 초기화
                     ItemInstanceManager.InstanceItem(5 + PlayerNowLevel);
 
+                    AudioManager.PlayDungeonClearSE(); //던전 클리어 음성 출력
                     DungeonClearMenu(null, dungeonLevel, sumDamage, rewardGold, levelValue, beforeNowLevel, beforeLevelRequestValue);
 
                     if (beforeLevelRequestValue <= PlayerLevelNowValue)
                     {
+                        AudioManager.PlayLevelUpSE(); //레벨업 음성 출력
                         PlayerLevelUpMenu(null, beforeMaxHP, beforeATK, beforeDEF, beforeNowHP);
                     }
                 }
@@ -461,6 +466,7 @@ namespace TextRPG
                 {
                     PlayerNowHP -= sumDamage;
                     DataManager.PlayerDataSave();
+                    AudioManager.PlayDungeonFailedSE(); //던전 실패 음성 출력
                     DungeonFaildMenu(null, dungeonLevel, sumDamage);
                 }
             }
@@ -473,7 +479,7 @@ namespace TextRPG
             Console.Clear();
             Console.WriteLine(TextManager.PlayerDieTxt(name, job, level, hp, ATK, DEF, levelValue, requestLevelValue, gold));
             Console.Write(TextManager.SelectNumberTxt(message));
-            string playerInput = Console.ReadLine();
+            string playerInput = InputNumber();
 
             switch (playerInput)
             {
@@ -504,6 +510,7 @@ namespace TextRPG
 
             DataManager.PlayerDataClear(); //플레이어 데이터 초기화 후 세이브
             DataManager.PlayerDataSave();
+            AudioManager.PlayPlayerDieSE(); //플레이어 사망 음성 출력
             PlayerDieMenu(null, name, job, level, hp, ATK, DEF, tempLevelValue, tempLevelRequestValue, gold);
         }
 
@@ -514,7 +521,7 @@ namespace TextRPG
             Console.Clear();
             Console.WriteLine(TextManager.DungeonClearTxt(dungeonLevel, damage, rewardGold, levelValue, beforeLevel, beforeLevelRequest));
             Console.Write(TextManager.SelectNumberTxt(message));
-            string playerInput = Console.ReadLine();
+            string playerInput = InputNumber();
 
             switch (playerInput)
             {
@@ -535,7 +542,7 @@ namespace TextRPG
             Console.Clear();
             Console.WriteLine(TextManager.DungeonFailedTxt(dungeonLevel, damage));
             Console.Write(TextManager.SelectNumberTxt(message));
-            string playerInput = Console.ReadLine();
+            string playerInput = InputNumber();
 
             switch (playerInput)
             {
@@ -570,7 +577,7 @@ namespace TextRPG
                 Console.WriteLine(TextManager.StartGameTxt());
                 Console.WriteLine(TextManager.SelectMainMenuTxt());
                 Console.Write(TextManager.SelectNumberTxt(message));
-                string playerInput = Console.ReadLine();
+                string playerInput = InputNumber();
 
                 message = null;
 
@@ -614,7 +621,7 @@ namespace TextRPG
             Console.Clear();
             Console.WriteLine(TextManager.PlayerReStartMenuTxt());
             Console.Write(TextManager.SelectNumberTxt(message));
-            string playerInput = Console.ReadLine();
+            string playerInput = InputNumber();
 
             switch (playerInput)
             {
@@ -634,6 +641,13 @@ namespace TextRPG
             }
         }
 
+        public static string InputNumber()
+        {
+            string playerInput = Console.ReadLine();
+            AudioManager.PlayMoveMenuSE(); //무언가 입력했을 경우 출력할 오디오
+            return playerInput;
+        }
+
 
         //메인 메뉴에서 휴식으로 입장한 경우
         public static void InputRestMenu(string? message)
@@ -641,7 +655,7 @@ namespace TextRPG
             Console.Clear();
             Console.WriteLine(TextManager.RestMenuTxt());
             Console.Write(TextManager.SelectNumberTxt(message));
-            string playerInput = Console.ReadLine();
+            string playerInput = InputNumber();
 
             switch (playerInput)
             {
