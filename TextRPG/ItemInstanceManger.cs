@@ -13,6 +13,15 @@ namespace TextRPG
         static Random random = new Random();
 
 
+        //모든 등급의 등장 수치를 정할 Dictionary
+        static Dictionary<Rarity, int> rarityAllCount = new Dictionary<Rarity, int>
+        {
+            { Rarity.Low, 6 },
+            { Rarity.Normal, 3 },
+            { Rarity.High, 1 },
+        };
+
+
         //생성한 아이템 값에 랜덤한 수치를 더해 무작위성을 추가하는 메서드
         public static Item RearrangeValue(Item item)
         {
@@ -48,12 +57,12 @@ namespace TextRPG
         }
 
 
-        //아이템을 랜덤으로 생성하는 메소드
-        public static void InstanceItem(int num)
+        //상점 아이템 리스트를 초기화시키고 랜덤으로 (플레이어 레벨 + 2)만큼 생성하는 메소드
+        public static void InstanceItem()
         {
             items = new List<Item>();
 
-            for (int i = 0; i < num; i++)
+            for (int i = 0; i < Player.PlayerAbilityStatus.PlayerNowLevel + 2; i++)
             {
                 Rarity rarity = RandomRarity();
                 Item item = GetRandomItem(rarity);
@@ -94,15 +103,6 @@ namespace TextRPG
 
             return itemList[i];
         }
-
-
-        //모든 등급의 등장 수치를 정할 Dictionary
-        static Dictionary<Rarity, int> rarityAllCount = new Dictionary<Rarity, int>
-        {
-            { Rarity.Low, 6 },
-            { Rarity.Normal, 3 },
-            { Rarity.High, 1 },
-        };
 
 
         //아이템들을 저장하고 있는 변수들.

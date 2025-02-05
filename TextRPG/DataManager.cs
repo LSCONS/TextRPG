@@ -154,7 +154,7 @@ namespace TextRPG
             PlayerDataClear();          //데이터 초기화
             PlayerDataSave();           //데이터 저장
             PlayerDataReset();          //데이터 다시 입력
-            ItemInstanceManager.InstanceItem(5);        //상점 아이템 초기화
+            ItemInstanceManager.InstanceItem();        //상점 아이템 초기화
         }
     }
 

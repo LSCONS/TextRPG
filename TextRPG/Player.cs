@@ -28,6 +28,8 @@ namespace TextRPG
             public static List<Item> PlayerInventoryItem { get; set; }       //플레이어 인벤토리 아이템 리스트
         }
 
+
+        //플레이어의 레벨이 오를 경우 능력치 상승을 처리하는 메소드
         public static void PlayerLevelUp()
         {
             PlayerAbilityStatus.PlayerNowLevel += 1;
@@ -37,6 +39,8 @@ namespace TextRPG
             PlayerAbilityStatus.PlayerNowDEF += 2;
         }
 
+
+        //플레이어가 고른 직업을 기준으로 기본 능력치를 부여하는 메소드
         public static void InputPlayerJobAbility(string job)
         {
             int hp = 0;
@@ -82,6 +86,7 @@ namespace TextRPG
     }
 
 
+    //고를 수 있는 직업의 종류를 담고 있는 enum
     internal enum JobType
     {
         전사 = 1,

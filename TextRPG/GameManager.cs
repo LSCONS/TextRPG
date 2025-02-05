@@ -35,6 +35,7 @@ namespace TextRPG
 
         public void StartGame()
         {
+            AudioManager.BGM_Start();
             DataManager.PlayerDataLoad();
             MenuManager.MainMenu(null);
         }

@@ -18,23 +18,28 @@ namespace TextRPG
 
         static float soundVolume = 0.2f;
 
-        static int soundDelayTime = 100; //0.1초 지연
+        static int soundDelayTime = 100; //다른 효과음을 0.1초 지연시켜서 무언가를 입력할 때마다 나오는 movemenu효과음을 무시
 
         static bool isBGM_Player = false;
         static bool isPlayerDie = false;
 
+
+        #region 음악 경로 지정 관련 필드 모음
         static string pathMusicFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "music\\");
 
-        static string pathBGM = pathMusicFolder + "BGM.mp3";
-        static string pathMoveMenuSE = pathMusicFolder + "MenuMove.mp3";
-        static string pathItemEquippedSE = pathMusicFolder + "ItemEquipped.mp3";
-        static string pathItemBuyOrSellSE = pathMusicFolder + "ItemBuyOrSell.mp3";
-        static string pathDungeonClearSE = pathMusicFolder + "DungeonClear.mp3";
-        static string pathDungeonFailedSE = pathMusicFolder + "DungeonFailed.mp3";
-        static string pathLevelUpSE = pathMusicFolder + "PlayerLevelUp.mp3";
-        static string pathPlayerDieSE = pathMusicFolder + "PlayerDie.mp3";
+        static string pathBGM = pathMusicFolder + "BGM.mp3";                            //배경음악
+        static string pathMoveMenuSE = pathMusicFolder + "MenuMove.mp3";                //메뉴가 나타날 때마다 나오는 기본 효과음
+        static string pathItemEquippedSE = pathMusicFolder + "ItemEquipped.mp3";        //아이템 장착 및 해제시 나오는 효과음
+        static string pathItemBuyOrSellSE = pathMusicFolder + "ItemBuyOrSell.mp3";      //아이템 구매 및 판매시 나오는 효과음
+        static string pathDungeonClearSE = pathMusicFolder + "DungeonClear.mp3";        //던전 클리어 시 나오는 효과음
+        static string pathDungeonFailedSE = pathMusicFolder + "DungeonFailed.mp3";      //던전 실패 시 나오는 효과음
+        static string pathLevelUpSE = pathMusicFolder + "PlayerLevelUp.mp3";            //플레이어의 레벨이 오를 경우 나오는 효과음
+        static string pathPlayerDieSE = pathMusicFolder + "PlayerDie.mp3";              //플레이어 사망 시 나오는 효과음
+        #endregion
 
-        public static async void PlayMoveMenuSE()
+
+        #region 효과음 실행 메서드 모음
+        public static void PlayMoveMenuSE()
         {
             PlaySE(pathMoveMenuSE);
         }
@@ -68,6 +73,7 @@ namespace TextRPG
             await Task.Delay(soundDelayTime);
             PlaySE(pathPlayerDieSE);
         }
+        #endregion
 
 
         //효과음을 세팅하고 실행하는 메서드

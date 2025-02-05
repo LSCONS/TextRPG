@@ -10,6 +10,13 @@ namespace TextRPG
     //다양한 텍스트 저장
     internal class TextManager
     {
+        //던전의 종류 및 권장 방어도를 입력
+        static Dictionary<int, (string, int)> DungeonType = new Dictionary<int, (string, int)>
+        {
+            {1, ("쉬운 던전", 5) },
+            {2, ("보통 던전", 11) },
+            {3, ("어려운 던전", 17) },
+        };
 
         #region 시작 및 메인 메뉴 텍스트 관리 /*시작 /*메인메뉴
         //시작 할 때 출력할 텍스트
@@ -134,12 +141,6 @@ namespace TextRPG
             return result.ToString();
         }
 
-        static Dictionary<int, (string, int)> DungeonType = new Dictionary<int, (string, int)>
-        {
-            {1, ("쉬운 던전", 5) },
-            {2, ("보통 던전", 11) },
-            {3, ("어려운 던전", 17) },
-        };
 
         //메인 메뉴에서 던전에 입장하면 출력할 텍스트
         public static string DungeonMenuTxt()

@@ -439,7 +439,7 @@ namespace TextRPG
                     DataManager.PlayerDataSave();
 
                     //상점 아이템 초기화
-                    ItemInstanceManager.InstanceItem(5 + PlayerNowLevel);
+                    ItemInstanceManager.InstanceItem();
 
                     AudioManager.PlayDungeonClearSE(); //던전 클리어 음성 출력
                     DungeonClearMenu(null, dungeonLevel, sumDamage, rewardGold, levelValue, beforeNowLevel, beforeLevelRequestValue);
