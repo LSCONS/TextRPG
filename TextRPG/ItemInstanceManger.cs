@@ -53,7 +53,7 @@ namespace TextRPG
             if (item.ItemType == "무기")        { ATK += rand; }
             else if (item.ItemType == "방어구") { DEF += rand; }
 
-            return new Item(item.ItemName, item.Rarity, item.ItemType, item.UseNow, ATK, DEF, item.ItemHP, item.ItemBuyGold, item.ItemInformationTxt);
+            return new Item(item.ItemName, item.Rarity, item.ItemType, item.UseNow, ATK, DEF, item.ItemHP, item.ItemBuyGold, item.ItemInformationTxt, false);
         }
 
 
@@ -109,40 +109,40 @@ namespace TextRPG
         public static List<Item> allItem = new List<Item>
         {
             // ===== 하급 (lowItemData) =====
-            new Item("나무 검",     Rarity.Low, "무기",   false, 3,  0, 0, 100, "없는 것 보다 나은 검이다."),
-            new Item("나무 막대기", Rarity.Low, "무기",   false, 2,  0, 0, 30,  "없으나 마나 한 막대기다."),
-            new Item("낡은 조끼",   Rarity.Low, "방어구", false, 0,  2, 0, 30,  "없으나 마나 한 옷이다"),
-            new Item("조끼",        Rarity.Low, "방어구", false, 0,  3, 0, 30,  "없는 것 보다 나은 옷이다."),
-            new Item("돌도끼",      Rarity.Low, "무기",   false, 4,  0, 0, 120, "단단한 돌로 만든 도끼다."),
-            new Item("짧은 창",     Rarity.Low, "무기",   false, 5,  0, 0, 150, "손쉬운 창이다."),
-            new Item("녹슨 검",     Rarity.Low, "무기",   false, 3,  0, 0, 90,  "오래된 검이다."),
-            new Item("작은 방패",   Rarity.Low, "방어구", false, 0,  2, 0, 50,  "가벼운 방패다."),
-            new Item("가죽 장갑",   Rarity.Low, "방어구", false, 0,  1, 0, 20,  "손을 보호하는 장갑이다."),
-            new Item("무릎 보호대", Rarity.Low, "방어구", false, 0,  2, 0, 40,  "무릎을 보호한다."),
-            new Item("천 갑옷",     Rarity.Low, "방어구", false, 0,  4, 0, 80,  "얇은 천으로 만든 갑옷이다."),
-            new Item("낡은 신발",   Rarity.Low, "방어구", false, 0,  1, 0, 30,  "오래된 신발이다."),
-            new Item("철제 너클",   Rarity.Low, "무기",   false, 6,  0, 0, 160, "주먹을 강화하는 무기다."),
-            new Item("부러진 창",   Rarity.Low, "무기",   false, 3,  0, 0, 70,  "부러져서 짧아진 창이다."),
+            new Item("나무 검",     Rarity.Low, "무기",   false, 3,  0, 0, 100, "없는 것 보다 나은 검이다.", false),
+            new Item("나무 막대기", Rarity.Low, "무기",   false, 2,  0, 0, 30,  "없으나 마나 한 막대기다.", false),
+            new Item("낡은 조끼",   Rarity.Low, "방어구", false, 0,  2, 0, 30,  "없으나 마나 한 옷이다", false),
+            new Item("조끼",        Rarity.Low, "방어구", false, 0,  3, 0, 30,  "없는 것 보다 나은 옷이다.", false),
+            new Item("돌도끼",      Rarity.Low, "무기",   false, 4,  0, 0, 120, "단단한 돌로 만든 도끼다.", false),
+            new Item("짧은 창",     Rarity.Low, "무기",   false, 5,  0, 0, 150, "손쉬운 창이다.", false),
+            new Item("녹슨 검",     Rarity.Low, "무기",   false, 3,  0, 0, 90,  "오래된 검이다.", false),
+            new Item("작은 방패",   Rarity.Low, "방어구", false, 0,  2, 0, 50,  "가벼운 방패다.", false),
+            new Item("가죽 장갑",   Rarity.Low, "방어구", false, 0,  1, 0, 20,  "손을 보호하는 장갑이다.", false),
+            new Item("무릎 보호대", Rarity.Low, "방어구", false, 0,  2, 0, 40,  "무릎을 보호한다.", false),
+            new Item("천 갑옷",     Rarity.Low, "방어구", false, 0,  4, 0, 80,  "얇은 천으로 만든 갑옷이다.", false),
+            new Item("낡은 신발",   Rarity.Low, "방어구", false, 0,  1, 0, 30,  "오래된 신발이다.", false),
+            new Item("철제 너클",   Rarity.Low, "무기",   false, 6,  0, 0, 160, "주먹을 강화하는 무기다.", false),
+            new Item("부러진 창",   Rarity.Low, "무기",   false, 3,  0, 0, 70,  "부러져서 짧아진 창이다.", false),
 
             // ===== 중급 (nomalItemData) =====
-            new Item("철 검",       Rarity.Normal, "무기",   false, 8,  0, 0, 300, "좋은 검이다."),
-            new Item("철 방망이",   Rarity.Normal, "무기",   false, 5,  0, 0, 200, "쓸만한 방망이다."),
-            new Item("철 갑옷",     Rarity.Normal, "방어구", false, 0,  8, 0, 300, "좋은 방어구다"),
-            new Item("가죽 갑옷",   Rarity.Normal, "방어구", false, 0,  5, 0, 200, "쓸만한 방어구다."),
-            new Item("은 도끼",     Rarity.Normal, "무기",   false, 10, 0, 0, 350, "무게감 있는 도끼다."),
-            new Item("긴 창",       Rarity.Normal, "무기",   false, 9,  0, 0, 320, "긴 창이라서 강하다."),
-            new Item("강철 망치",   Rarity.Normal, "무기",   false, 7,  0, 0, 270, "무거운 강철 망치다."),
-            new Item("큰 방패",     Rarity.Normal, "방어구", false, 0,  6, 0, 250, "튼튼한 방패다."),
-            new Item("강철 신발",   Rarity.Normal, "방어구", false, 0,  5, 0, 220, "단단한 신발이다."),
-            new Item("사슬 갑옷",   Rarity.Normal, "방어구", false, 0,  9, 0, 350, "사슬로 만든 갑옷이다."),
+            new Item("철 검",       Rarity.Normal, "무기",   false, 8,  0, 0, 300, "좋은 검이다.", false),
+            new Item("철 방망이",   Rarity.Normal, "무기",   false, 5,  0, 0, 200, "쓸만한 방망이다.", false),
+            new Item("철 갑옷",     Rarity.Normal, "방어구", false, 0,  8, 0, 300, "좋은 방어구다", false),
+            new Item("가죽 갑옷",   Rarity.Normal, "방어구", false, 0,  5, 0, 200, "쓸만한 방어구다.", false),
+            new Item("은 도끼",     Rarity.Normal, "무기",   false, 10, 0, 0, 350, "무게감 있는 도끼다.", false),
+            new Item("긴 창",       Rarity.Normal, "무기",   false, 9,  0, 0, 320, "긴 창이라서 강하다.", false),
+            new Item("강철 망치",   Rarity.Normal, "무기",   false, 7,  0, 0, 270, "무거운 강철 망치다.", false),
+            new Item("큰 방패",     Rarity.Normal, "방어구", false, 0,  6, 0, 250, "튼튼한 방패다.", false),
+            new Item("강철 신발",   Rarity.Normal, "방어구", false, 0,  5, 0, 220, "단단한 신발이다.", false),
+            new Item("사슬 갑옷",   Rarity.Normal, "방어구", false, 0,  9, 0, 350, "사슬로 만든 갑옷이다.", false),
 
             // ===== 상급 (highItemData) =====
-            new Item("명검 엑스칼",  Rarity.High, "무기",   false, 15, 0, 0, 1000, "전설 속의 명검이다."),
-            new Item("강화된 대검",  Rarity.High, "무기",   false, 12, 0, 0, 500,  "단단한 대검이다."),
-            new Item("신성한 갑옷",  Rarity.High, "방어구", false, 0,  15, 0, 1000, "성스러운 기운이 감돈다."),
-            new Item("강화된 갑옷",  Rarity.High, "방어구", false, 0,  12, 0, 500,  "매우 튼튼한 갑옷이다."),
-            new Item("폭룡의 검",    Rarity.High, "무기",   false, 18, 0, 0, 1200, "폭풍 같은 용의 힘을 담았다."),
-            new Item("미스릴 갑옷",  Rarity.High, "방어구", false, 0,  18, 0, 1200, "희귀한 미스릴로 제작됨."),
+            new Item("명검 엑스칼",  Rarity.High, "무기",   false, 15, 0, 0, 1000, "전설 속의 명검이다.", false),
+            new Item("강화된 대검",  Rarity.High, "무기",   false, 12, 0, 0, 500,  "단단한 대검이다.", false),
+            new Item("신성한 갑옷",  Rarity.High, "방어구", false, 0,  15, 0, 1000, "성스러운 기운이 감돈다.", false),
+            new Item("강화된 갑옷",  Rarity.High, "방어구", false, 0,  12, 0, 500,  "매우 튼튼한 갑옷이다.", false),
+            new Item("폭룡의 검",    Rarity.High, "무기",   false, 18, 0, 0, 1200, "폭풍 같은 용의 힘을 담았다.", false),
+            new Item("미스릴 갑옷",  Rarity.High, "방어구", false, 0,  18, 0, 1200, "희귀한 미스릴로 제작됨.", false)
         };
     }
 }

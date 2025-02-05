@@ -275,13 +275,16 @@ namespace TextRPG
             else if (int.TryParse(playerInput, out int value) && ItemInstanceManager.items.Count >= value)
             {
                 Item item = ItemInstanceManager.items[value - 1];
-                if (PlayerNowGold >= item.ItemBuyGold)
+                if (item.IsBuy == true)
+                {
+                    InputShopBuyMenu(playerItemList, "이미 구매한 아이템입니다.");
+                }
+                else if (PlayerNowGold >= item.ItemBuyGold)
                 {
                     //상점 리스트 -> 플레이어 인벤토리 리스트로 아이템 이동
                     PlayerNowGold -= item.ItemBuyGold;
                     playerItemList.Add(item);
-                    
-                    ItemInstanceManager.items.Remove(item);
+                    item.IsBuy = true;
                     DataManager.PlayerDataSave();       //데이터 저장
                     AudioManager.PlayItemBuyOrSellSE();//구매 소리 출력
                     InputShopBuyMenu(playerItemList, "구입이 완료되었습니다.");

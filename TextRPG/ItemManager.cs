@@ -27,12 +27,13 @@ namespace TextRPG
         public int ItemBuyGold { get; set; }                //아이템의 구매 가격
         public int ItemSellGold { get; set; }               //아이템의 판매 가격
         public string ItemInformationTxt { get; init; }     //아이템의 정보
+        public bool IsBuy {  get; set; }                    //아이템의 구매 여부
 
-        private float itemSellMultiple = 0.85f;              //아이템의 판매 가격을 정할 배율
+        private float itemSellMultiple = 0.85f;             //아이템의 판매 가격을 정할 배율
 
 
         //Item을 생성하기 위해 선언해야 하는 생성자
-        public Item(string itemName, Rarity rarity,string itemType, bool useNow, int itemATK, int itemDEF, int itemHP, int itemBuyGold, string itemInformationTxt)
+        public Item(string itemName, Rarity rarity,string itemType, bool useNow, int itemATK, int itemDEF, int itemHP, int itemBuyGold, string itemInformationTxt, bool isBuy)
         {
             this.ItemName = itemName;
             this.Rarity = rarity;
@@ -44,6 +45,7 @@ namespace TextRPG
             this.ItemBuyGold = itemBuyGold;
             this.ItemSellGold = (int)(itemBuyGold * itemSellMultiple);
             this.ItemInformationTxt = itemInformationTxt;
+            this.IsBuy = isBuy;
         }
 
 

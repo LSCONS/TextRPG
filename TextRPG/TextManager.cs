@@ -454,8 +454,9 @@ namespace TextRPG
                 string DEF = SortPadRightItemList(itemList[i].ItemDEF.ToString(), 10);
                 string gold = "";
                 string information = SortPadRightItemList(itemList[i].ItemInformationTxt, 30);
+                bool itemIsBuy = itemList[i].IsBuy;
 
-                if (isBuy == true)  { gold = SortPadRightItemList(itemList[i].ItemBuyGold.ToString() + " G", 12); }
+                if (isBuy == true)  { gold = itemIsBuy ? SortPadRightItemList("구매 완료", 12) : SortPadRightItemList(itemList[i].ItemBuyGold.ToString() + " G", 12); }
                 else                { gold = SortPadRightItemList(itemList[i].ItemSellGold.ToString() + " G", 12); }
 
 
