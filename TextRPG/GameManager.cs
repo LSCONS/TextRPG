@@ -9,10 +9,6 @@ namespace TextRPG
 {
     //구현해야 하는 것
 
-    //배경음 소리 조절
-
-    //배경음악 무한 루프 추가
-
     //창 변경시 효과음 소리
 
     //한글자씩 출력되는 기능 구현
@@ -43,7 +39,6 @@ namespace TextRPG
         public void StartGame()
         {
             DataManager.PlayerDataLoad();
-
             MenuManager.MainMenu(null);
         }
     }

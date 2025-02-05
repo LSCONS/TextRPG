@@ -8,10 +8,11 @@ namespace TextRPG
     internal class Program
     {
         //게임 시작
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             GameManager gameManager = GameManager.Instance;
-            AudioManager.PlayBGM(AudioManager.pathBGM);
+            AudioManager audioManager = AudioManager.Instance;
+            audioManager.BGM_Start();
             gameManager.StartGame();
         }
     }
