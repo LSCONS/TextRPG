@@ -151,9 +151,10 @@ namespace TextRPG
         //플레이어의 데이터를 모두 초기화하고 다시 시작할 때 사용할 메서드
         public static void PlayerDataReStart()
         {
-            PlayerDataClear();
-            PlayerDataReset();
-            ItemInstanceManager.InstanceItem(5);
+            PlayerDataClear();          //데이터 초기화
+            PlayerDataSave();           //데이터 저장
+            PlayerDataReset();          //데이터 다시 입력
+            ItemInstanceManager.InstanceItem(5);        //상점 아이템 초기화
         }
     }
 

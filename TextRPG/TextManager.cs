@@ -32,6 +32,7 @@ namespace TextRPG
             result.AppendLine("3. 상점");
             result.AppendLine("4. 던전 입장");
             result.AppendLine("5. 휴식하기");
+            result.AppendLine("0. 다시 시작하기");
 
             return result.ToString();
         }
@@ -149,6 +150,25 @@ namespace TextRPG
             result.AppendLine("3. 어려운 던전 \\ 방어력 17 이상 권장");
             result.AppendLine();
             result.AppendLine("0. 나가기");
+
+            return result.ToString();
+        }
+
+
+        //메인 메뉴에서 새로 시작하기를 누르면 출력할 텍스트
+        public static string PlayerReStartMenuTxt()
+        {
+            StringBuilder result = new StringBuilder();
+
+            result.AppendLine("새로 시작하기");
+            result.AppendLine();
+            result.AppendLine("[플레이어 정보]");
+            result.AppendLine($"이름 : {PlayerName}");
+            result.AppendLine($"레벨 : {PlayerNowLevel}");
+            result.AppendLine($"직업 : {PlayerJob}");
+            result.AppendLine();
+            result.AppendLine("1. 다시 시작하기");
+            result.AppendLine("0. 취소");
 
             return result.ToString();
         }

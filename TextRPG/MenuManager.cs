@@ -551,6 +551,90 @@ namespace TextRPG
         #endregion
 
 
+        //메인 메뉴 입장
+        public static void MainMenu(string? message)
+        {
+            while (true)
+            {
+                if (PlayerName == null ||
+                    PlayerJob == null ||
+                    PlayerName == "" ||
+                    PlayerJob == "")
+                {
+                    DataManager.PlayerDataReStart();
+                }
+
+                if (PlayerInventoryItem == null) PlayerInventoryItem = new List<Item>();
+
+                Console.Clear();
+                Console.WriteLine(TextManager.StartGameTxt());
+                Console.WriteLine(TextManager.SelectMainMenuTxt());
+                Console.Write(TextManager.SelectNumberTxt(message));
+                string playerInput = Console.ReadLine();
+
+                message = null;
+
+                switch (playerInput)
+                {
+                    case "1"://상태 창 입장
+                        InputStatusMenu(PlayerInventoryItem, null);
+                        break;
+
+                    case "2"://인벤토리 창 입장
+                        InputInventoryMenu(PlayerInventoryItem, null);
+                        break;
+
+                    case "3"://상점 창 입장
+                        InputShopMenu(PlayerInventoryItem, null);
+                        break;
+
+                    case "4"://던전 창 입장
+                        InputDungeonMenu(null);
+                        break;
+
+                    case "5"://휴식 창 입장
+                        InputRestMenu(null);
+                        break;
+
+                    case "0"://플레이어 재시작
+                        PlayerReStartMenu(null);
+                        break;
+
+                    default:
+                        message = "잘못된 입력입니다";
+                        break;
+                }
+            }
+        }
+
+
+        //메인 메뉴에서 새로하기를 입력한 경우
+        public static void PlayerReStartMenu(string? message)
+        {
+            Console.Clear();
+            Console.WriteLine(TextManager.PlayerReStartMenuTxt());
+            Console.Write(TextManager.SelectNumberTxt(message));
+            string playerInput = Console.ReadLine();
+
+            switch (playerInput)
+            {
+                case "0"://취소
+                    break;
+
+                case "1"://다시 시작하기
+                    if(CheckedPlayerInput(null, "다시 시작하기") == true)
+                    {
+                        DataManager.PlayerDataReStart();
+                    }
+                    break;
+
+                default:
+                    PlayerReStartMenu("잘못된 입력입니다.");
+                    break;
+            }
+        }
+
+
         //메인 메뉴에서 휴식으로 입장한 경우
         public static void InputRestMenu(string? message)
         {
