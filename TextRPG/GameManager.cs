@@ -8,9 +8,6 @@ using static TextRPG.Player.PlayerAbilityStatus;
 namespace TextRPG
 {
     //구현해야 하는 것
-
-    //창 변경시 효과음 소리
-
     //한글자씩 출력되는 기능 구현
 
     //던전 내부에서 특수 이벤트 추가
