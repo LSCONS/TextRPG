@@ -16,7 +16,8 @@ namespace TextRPG
         static IWavePlayer SE_Player;
         static AudioFileReader SE_Reader;
 
-        static float soundVolume = 0.2f;
+        static float bgmVolume = 0.2f;
+        static float seVolme = 0.2f;
 
         static int soundDelayTime = 100; //다른 효과음을 0.1초 지연시켜서 무언가를 입력할 때마다 나오는 movemenu효과음을 무시
 
@@ -25,7 +26,7 @@ namespace TextRPG
 
 
         #region 음악 경로 지정 관련 필드 모음
-        static string pathMusicFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "music\\");
+        static string pathMusicFolder = Path.Combine(Directory.GetCurrentDirectory(), "music\\");
 
         static string pathBGM = pathMusicFolder + "BGM.mp3";                            //배경음악
         static string pathMoveMenuSE = pathMusicFolder + "MenuMove.mp3";                //메뉴가 나타날 때마다 나오는 기본 효과음
@@ -84,7 +85,7 @@ namespace TextRPG
             SE_Player = new WaveOutEvent();     //배경음악 플레이어 생성
             SE_Reader = new AudioFileReader(filePath)       //배경음악 파일 불러오기
             {
-                Volume = soundVolume    //볼륨 조절
+                Volume = seVolme    //볼륨 조절
             };
             SE_Player.Init(SE_Reader);      //배경음악 플레이어에 음악 집어넣기
 
@@ -100,7 +101,7 @@ namespace TextRPG
             bgmPlayer = new WaveOutEvent();     //배경음악 플레이어 생성
             bgmReader = new AudioFileReader(filePath)       //배경음악 파일 불러오기
             {
-                Volume = soundVolume    //볼륨 조절
+                Volume = bgmVolume    //볼륨 조절
             };
             bgmPlayer.Init(bgmReader);      //배경음악 플레이어에 음악 집어넣기
 
