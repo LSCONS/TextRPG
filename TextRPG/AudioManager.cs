@@ -83,9 +83,6 @@ namespace TextRPG
             StopPlayerAndReader(SE_Player, SE_Reader);
 
             SE_Player = new WaveOutEvent();     //배경음악 플레이어 생성
-
-            Console.Write(filePath);
-
             SE_Reader = new AudioFileReader(filePath)       //배경음악 파일 불러오기
             {
                 Volume = seVolme    //볼륨 조절
