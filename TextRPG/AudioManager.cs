@@ -26,7 +26,7 @@ namespace TextRPG
 
 
         #region 음악 경로 지정 관련 필드 모음
-        static string pathMusicFolder = Path.Combine(Directory.GetCurrentDirectory(), "music\\");
+        static string pathMusicFolder = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName, "music\\"); 
 
         static string pathBGM = pathMusicFolder + "BGM.mp3";                            //배경음악
         static string pathMoveMenuSE = pathMusicFolder + "MenuMove.mp3";                //메뉴가 나타날 때마다 나오는 기본 효과음
@@ -83,6 +83,9 @@ namespace TextRPG
             StopPlayerAndReader(SE_Player, SE_Reader);
 
             SE_Player = new WaveOutEvent();     //배경음악 플레이어 생성
+
+            Console.Write(filePath);
+
             SE_Reader = new AudioFileReader(filePath)       //배경음악 파일 불러오기
             {
                 Volume = seVolme    //볼륨 조절
