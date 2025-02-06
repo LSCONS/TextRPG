@@ -8,7 +8,7 @@ using static TextRPG.Player.PlayerAbilityStatus;
 namespace TextRPG
 {
     //다양한 텍스트 저장
-    internal class TextManager
+    public class TextManager
     {
         //던전의 종류 및 권장 방어도를 입력
         static Dictionary<int, (string, int)> DungeonType = new Dictionary<int, (string, int)>

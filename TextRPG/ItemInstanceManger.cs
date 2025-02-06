@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace TextRPG
 {
     //아이템 생성 관련 클래스
-    internal class ItemInstanceManager
+    public class ItemInstanceManager
     {
         public static List<Item> items = new List<Item>();  //상점에 출력할 아이템들
         static Random random = new Random();

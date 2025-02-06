@@ -7,7 +7,7 @@ using static TextRPG.Player.PlayerAbilityStatus;
 
 namespace TextRPG
 {
-    internal class MenuManager
+    public class MenuManager
     {
         #region 플레이어 관련 메뉴 /*이름 /*직업 /*입력 확정 /*상태 /*인벤토리 /*장착 /*레벨 업
 

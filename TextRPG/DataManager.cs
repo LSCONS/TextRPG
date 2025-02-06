@@ -9,7 +9,7 @@ using static TextRPG.Player.PlayerAbilityStatus;
 namespace TextRPG
 {
     //해당 json을 확인하고 null이거나 오류가 발생할 경우 플레이어 데이터를 초기화시킴.
-    internal class DataManager
+    public class DataManager
     {
         //내부에 저장되어있는 플레이어 데이터를 외부로 저장하는 메서드
         public static void PlayerDataSave()
