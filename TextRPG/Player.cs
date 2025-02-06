@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace TextRPG
 {
+    //테스트
     public class Player
     {
         //플레이어의 기본적인 능력치 데이터가 들어있는 클래스
